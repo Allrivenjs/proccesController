@@ -1,0 +1,17 @@
+{
+  "name": "processController",
+  "version": "1.0.0",
+  "description": "task scheduler program",
+  "main": "index.js",
+  "repository": "https://github.com/Allrivenjs/proccesController.git",
+  "author": "Fabián Sánchez <faalsaru@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "nodemon": "^2.0.20",
+    "table-parser": "^1.0.1"
+  }
+}
