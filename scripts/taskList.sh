@@ -1,6 +1,18 @@
 #!/bin/bash
 #ps -eo %cpu,pid,comm,user,nice,time,cmd
-ps -eo %cpu,%mem,pid,comm,user,nice,time,cmd ## | sort -k 1 -r
+#aceptar un parametro en bash
+
+
+ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | sort -k 1 -r | head -n 11
+
+
+#crear new archivo
+#nombre y una descripcion
+
+#for (let i = 0; i <= description.length; i**){
+#
+# }
+
 #tambien muestre la uso de memoria
 #ps -o pid,ppid,user,%cpu,%mem,vsz,rss,stat,start,time,command
 
