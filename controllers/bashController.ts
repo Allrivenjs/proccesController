@@ -1,10 +1,9 @@
 import { Response } from 'express';
 
-import { Process } from '../models/procces';
+import { IProcess, Process } from '../models/procces';
 
 export const getBashProcess = async ( req : any, res : Response ) => {
     const { n } = req.query;
-    const getProcess = await Process.fromBash();
-
-    res.json(getProcess);
+    const getProcess : IProcess[] = await Process.fromBash(n);
+    return res.send(getProcess);
 };
