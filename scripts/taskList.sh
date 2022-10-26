@@ -3,7 +3,7 @@
 #aceptar un parametro en bash
 
 
-ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | sort -k 1 -r | head -n 11
+ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 10
 
 
 #crear new archivo

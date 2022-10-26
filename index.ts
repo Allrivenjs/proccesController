@@ -1,35 +1,15 @@
-
-const { exec } = require('child_process');
-const Parser = require('table-parser');
-import {Process} from "./models/procces";
-
-// exec('./scripts/taskList.sh', (err, stdout, stderr) => {
-// 	const stdoutParsed = Parser.parse(stdout);
-// 	console.log(stdoutParsed);
-// });
+import routes from "./routes/routes";
+const express = require('express');
+const app = express();
 
 
-const bash = async (): Promise<Process[]> =>
-	  await new Promise((resolve: any, _) => {
-		exec('./scripts/taskList.sh', (err: any, stdout:string, _: string) => {
-			resolve(Parser.parse(stdout))
-		});
-	});
-
-const setFileProcess = async () => {
-	const process = await bash();
-	for (const p of process) {
-		console.log(p);
-		break;
-	}
-}
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(routes);
 
 
 
-const main = async () => {
-	await setFileProcess();
-}
 
-main();
-
-
+app.listen(3000, () => {
+	console.log('Server on port 3000');
+});
