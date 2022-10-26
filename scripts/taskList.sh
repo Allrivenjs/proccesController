@@ -3,8 +3,7 @@
 #aceptar un parametro en bash
 
 
-ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 10
-
+ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd 
 
 #crear new archivo
 #nombre y una descripcion

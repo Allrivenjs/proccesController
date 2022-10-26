@@ -1,6 +1,8 @@
-import {exec} from "child_process";
-import * as fs from "fs";
-const Parser = require('table-parser');
+import { exec } from 'child_process';
+import * as fs from 'fs';
+
+// @ts-ignore
+import Parser from 'table-parser';
 
 export interface IProcess {
     PID: number;
@@ -15,6 +17,7 @@ export interface IProcess {
     STARTED: string;
     TIME: string;
     CMD: string;
+    burstTime: number;
 }
 
 
@@ -31,6 +34,7 @@ export class Process {
     STARTED: string;
     TIME: string;
     CMD: string;
+    burstTime: number;
 
     constructor() {
         this.PID = 0;
@@ -45,6 +49,7 @@ export class Process {
         this.STARTED = '';
         this.TIME = '';
         this.CMD = '';
+        this.burstTime = Math.random() * (100 - 10) + 10;
     }
 
     public static fromObject(obj: any): IProcess {
