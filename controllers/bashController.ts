@@ -3,7 +3,8 @@ import {Response} from "express";
 
 const getBashProcess = async ( req : any, res : Response ) => {
     const { n } = req.query;
-    const getProcess = await Process.fromBash();
+    const getProcess : IProcess[] = await Process.fromBash(n);
+    return res.send(getProcess);
 }
 module.exports = {
     getBashProcess
