@@ -1,7 +1,9 @@
-import {exec} from "child_process";
-import * as fs from "fs";
+import {exec} from 'child_process';
+import * as fs from 'fs';
 
-const Parser = require('table-parser');
+// @ts-ignore
+import Parser from 'table-parser';
+
 
 export interface IProcess {
     PID: number;
@@ -16,6 +18,7 @@ export interface IProcess {
     STARTED: string;
     TIME: string;
     CMD: string;
+    burstTime: number;
 }
 
 
@@ -32,6 +35,7 @@ export class Process {
     STARTED: string;
     TIME: string;
     CMD: string;
+    burstTime: number;
 
     constructor() {
         this.PID = 0;
@@ -46,6 +50,7 @@ export class Process {
         this.STARTED = '';
         this.TIME = '';
         this.CMD = '';
+        this.burstTime = Math.random() * (100 - 10) + 10;
     }
 
     public static fromObject(obj: any): IProcess {
@@ -80,7 +85,7 @@ export class Process {
 
     public static async fromBash(): Promise<IProcess[]> {
         return await new Promise((resolve: any, _) => {
-            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd`, (err: any, stdout:string, _: string) => {
+            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd`, (err: any, stdout: string, _: string) => {
                 resolve(Process.fromString(stdout));
             });
         });
@@ -94,3 +99,5 @@ export class Process {
         });
     }
 }
+
+

@@ -1,8 +1,10 @@
-import {IProcess, Process} from "../models/procces";
-import {Response} from "express";
+import { Response } from 'express';
 
-const getBashProcess = async ( req : any, res : Response ) => {
+import { IProcess, Process } from '../models/procces';
+
+export const getBashProcess = async ( req : any, res : Response ) => {
     const { n } = req.query;
+
     const getProcess : IProcess[] = await Process.fromBash();
 
 
@@ -12,9 +14,7 @@ const getBashProcess = async ( req : any, res : Response ) => {
         "process": getProcess.slice(0, n)
     });
 }
-module.exports = {
-    getBashProcess
-}
+
 
 
 

@@ -1,12 +1,12 @@
 //importar express y crear rutas
 import { Router } from 'express';
-const bashController = require('../controllers/bashController') ;
+import { getBashProcess } from '../controllers/bashController';
 // import { indexController } from '../controllers/indexController';
 
 const router = Router();
 
-router.get('/process', bashController.getBashProcess);
-router.get('/process/:id', function (req, res, next) {
+router.get('/process', getBashProcess);
+router.get('/process/:id', (req, res) => {
 
 });
 
