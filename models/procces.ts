@@ -1,5 +1,6 @@
 import {exec} from "child_process";
 import * as fs from "fs";
+
 const Parser = require('table-parser');
 
 export interface IProcess {
@@ -77,9 +78,9 @@ export class Process {
         return Process.fromArray(arr);
     }
 
-    public static async fromBash(n : number = 10): Promise<IProcess[]> {
+    public static async fromBash(): Promise<IProcess[]> {
         return await new Promise((resolve: any, _) => {
-            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n ${n}`, (err: any, stdout:string, _: string) => {
+            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd`, (err: any, stdout:string, _: string) => {
                 resolve(Process.fromString(stdout));
             });
         });
@@ -92,5 +93,4 @@ export class Process {
             });
         });
     }
-
 }
