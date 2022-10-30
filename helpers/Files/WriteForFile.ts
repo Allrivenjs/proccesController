@@ -21,7 +21,8 @@ export class WriteForFile {
         return fs.existsSync(path);
     }
 
-    public static createDirectory(path: string): void {
-        fs.mkdirSync(path);
+    public static createDirectory(path: string): string {
+        fs.mkdirSync(path)
+        return path;
     }
 }

@@ -15,7 +15,7 @@ const mockRoundRobin = async () => {
 		if(isPaused) {
 			console.log('round robin esta pausado, no se ejecturán procesos');
 			continue;
-		};
+		}
 
 		console.log('round robin cicle');
 		await new Promise((resolve) => {
@@ -25,7 +25,7 @@ const mockRoundRobin = async () => {
 		if (i >= 5) {
 			return 'terminado';
 		}
-	};
+	}
 };
 
 mockRoundRobin();

@@ -18,7 +18,9 @@ export interface IProcess {
     STARTED: string;
     TIME: string;
     CMD: string;
-    burstTime: number;
+    burstTime: number
+    status: string;
+    absoluteDescription: string;
 }
 
 
@@ -35,7 +37,10 @@ export class Process {
     STARTED: string;
     TIME: string;
     CMD: string;
-    burstTime: number;
+    burstTime: number|null;
+    status: string;
+    absoluteDescription: string;
+
 
     constructor() {
         this.PID = 0;
@@ -50,10 +55,12 @@ export class Process {
         this.STARTED = '';
         this.TIME = '';
         this.CMD = '';
-        this.burstTime = Math.random() * (100 - 10) + 10;
+        this.burstTime = 0  //change (TH * (length of description of group process)) (TH is init for user)
+        this.status = 'ready';
+        this.absoluteDescription = '';
     }
 
-    public static fromObject(obj: any): IProcess {
+    public static fromObject(obj: any): Process {
         const process = new Process();
         process.PID = obj.PID;
         process['%CPU'] = obj['%CPU'];
@@ -67,10 +74,33 @@ export class Process {
         process.STARTED = obj.STARTED;
         process.TIME = obj.TIME;
         process.CMD = obj.CMD;
+        process.burstTime = obj.burstTime;
+        process.status = obj.status;
         return process;
     }
 
-    public static fromArray(arr: any[]): IProcess[] {
+    public static setBurstTime(this: Process, TH: number, description: string): void {
+        this.burstTime = TH * this.getLengthProcess(description);
+    }
+
+    public getLengthProcess(description: string): number {
+        return description.length + this.toString().length;
+    }
+
+    public setAbsoluteDescription(description: string) {
+        this.absoluteDescription = description + this.toString();
+    }
+
+    public getAbsoluteDescription(): string {
+        return this.absoluteDescription;
+    }
+
+    public getCharForDescriptionPosition(position: number): string {
+        return this.absoluteDescription[position];
+    }
+
+
+    public static fromArray(arr: any[]): Process[] {
         const processes: Process[] = [];
         for (const obj of arr) {
             processes.push(Process.fromObject(obj));
@@ -98,6 +128,8 @@ export class Process {
             });
         });
     }
+
+    public toString(): string {
+        return `PID: ${this.PID}, %CPU: ${this['%CPU']}, %MEM: ${this['%MEM']}, COMMAND: ${this.COMMAND}, USER: ${this.USER}, NI: ${this.NI}, VSZ: ${this.VSZ}, RSS: ${this.RSS}, STAT: ${this.STAT}, STARTED: ${this.STARTED}, TIME: ${this.TIME}, CMD: ${this.CMD}`;
+    }
 }
-
-

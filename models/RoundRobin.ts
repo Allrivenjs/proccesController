@@ -1,7 +1,7 @@
 import {IProcess, Process} from './procces';
 import {IGroupProcess} from "./groupProcesses";
 
-
+// TODO:
 // el algoritmo de round robin es:
 // 1. crear los archivos de los procesos
 // 2. ejecutar los procesos por turnos, cada proceso tiene un quantum
@@ -9,7 +9,7 @@ import {IGroupProcess} from "./groupProcesses";
 // 4. terminar;
 
 
-
+// TODO:
 // tenemos que tener un IGroupProcess que tenga un array de procesos, y recibimos el quantum, entonces:
 // debemos ejecutar solo un proceso del grupo de procesos, y en ese proce debemos asignarle un nombre que sera el nombre del proceso,
 // y tambien una descripcion, que sera la descripcion del grupo de procesos y el contenido asocitivo al proceso

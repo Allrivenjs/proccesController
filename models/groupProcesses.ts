@@ -1,11 +1,12 @@
-import { IProcess } from "./procces";
+import {IProcess, Process} from "./procces";
 import {v4 as uuidv4} from 'uuid';
 
 export interface IGroupProcess {
     id: uuidv4;
     name: string;
     description: string;
-    processes: IProcess[];
+    processes: Process[];
+    TH: number;
 }
 
 
