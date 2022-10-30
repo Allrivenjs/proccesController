@@ -1511,6 +1511,11 @@ ts-node@^10.9.1:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
+ts-worker@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/ts-worker/-/ts-worker-1.0.3.tgz#9381eccc0312501af019829f2e7b220250e80a6f"
+  integrity sha512-UKSc4XIOWYh1wJoHXf7wKpoQDIv2ued/GUtY593XW4M/3PBYpdud+EONUTtIWjBegm1k4JZpn8gDCkCbLAr1Cg==
+
 type-is@~1.6.18:
   version "1.6.18"
   resolved "https://registry.yarnpkg.com/type-is/-/type-is-1.6.18.tgz#4e552cd05df09467dcbc4ef739de89f2cf37c131"

@@ -1,5 +1,6 @@
 import routes from "./routes/routes";
-const express = require('express');
+import express from 'express';
+
 const app = express();
 
 app.use(express.json());
