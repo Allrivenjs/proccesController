@@ -4,26 +4,6 @@ import * as fs from 'fs';
 // @ts-ignore
 import Parser from 'table-parser';
 
-
-export interface IProcess {
-    PID: number;
-    '%CPU': number;
-    '%MEM': number;
-    COMMAND: string;
-    USER: string;
-    NI: number;
-    VSZ: bigint;
-    RSS: bigint;
-    STAT: string;
-    STARTED: string;
-    TIME: string;
-    CMD: string;
-    burstTime: number
-    status: string;
-    absoluteDescription: string;
-}
-
-
 export class Process {
     PID: number;
     '%CPU': number;
@@ -37,7 +17,7 @@ export class Process {
     STARTED: string;
     TIME: string;
     CMD: string;
-    burstTime: number|null;
+    burstTime: number | null;
     status: string;
     absoluteDescription: string;
 
@@ -79,8 +59,8 @@ export class Process {
         return process;
     }
 
-    public static setBurstTime(this: Process, TH: number, description: string): void {
-        this.burstTime = TH * this.getLengthProcess(description);
+    public setBurstTime(burstTime: number): void {
+        this.burstTime = burstTime; 
     }
 
     public getLengthProcess(description: string): number {
@@ -108,20 +88,20 @@ export class Process {
         return processes;
     }
 
-    public static fromString(str: string): IProcess[] {
+    public static fromString(str: string): Process[] {
         const arr = Parser.parse(str);
         return Process.fromArray(arr);
     }
 
-    public static async fromBash(): Promise<IProcess[]> {
+    public static async fromBash(): Promise<Process[]> {
         return await new Promise((resolve: any, _) => {
-            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd`, (err: any, stdout: string, _: string) => {
+            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 10`, (err: any, stdout: string, _: string) => {
                 resolve(Process.fromString(stdout));
             });
         });
     }
 
-    public static async fromFile(): Promise<IProcess[]> {
+    public static async fromFile(): Promise<Process[]> {
         return await new Promise((resolve: any, _) => {
             fs.readFile('./scripts/taskList.sh', 'utf8', (err: any, stdout: string) => {
                 resolve(Process.fromString(stdout));
@@ -131,5 +111,9 @@ export class Process {
 
     public toString(): string {
         return `PID: ${this.PID}, %CPU: ${this['%CPU']}, %MEM: ${this['%MEM']}, COMMAND: ${this.COMMAND}, USER: ${this.USER}, NI: ${this.NI}, VSZ: ${this.VSZ}, RSS: ${this.RSS}, STAT: ${this.STAT}, STARTED: ${this.STARTED}, TIME: ${this.TIME}, CMD: ${this.CMD}`;
+    };
+
+    public toStringSimple(): string {
+        return `PID: ${this.PID}, %CPU: ${this['%CPU']}, %MEM: ${this['%MEM']}, BURST_TIME: ${this.burstTime} COMMAND: ${this.COMMAND},USER: ${this.USER}, TIME: ${this.TIME}`;
     }
 }

@@ -1,6 +1,6 @@
-import {GroupProcesses, IGroupProcess} from "../models/groupProcesses";
-import {WriteForFile} from "../helpers/Files/WriteForFile";
-import {Process} from "../models/procces";
+import { WriteForFile } from "../helpers/Files/WriteForFile";
+import { Process } from "../models/procces";
+import { ProcessCatalog } from "../models/ProcessCatalog";
 
 export class Processes {
     pause: boolean;
@@ -10,9 +10,9 @@ export class Processes {
     }
 
 
-    public mockRoundRobin(groupProcess: IGroupProcess, quantum: number) {
+    public mockRoundRobin(processCatalog: ProcessCatalog, quantum: number) {
         //said that the process is running
-        const path = WriteForFile.createDirectory(`./processes/${groupProcess.id}`);
+        const path = WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
 
         //la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
 
@@ -20,22 +20,23 @@ export class Processes {
         let stop = false;
         let processFinished = [];
 
-       while(!stop){
-            while (i <= groupProcess.processes.length) {
+        while(!stop) {
+            while (i <= processCatalog.getAllProcess().length) {
                 for (let j = 0; j < quantum; j++) {
                     // verificar si el proceso esta pausado
-                    this.pauseProcess(groupProcess);
+                    this.pauseProcess(processCatalog);
 
 
-                    const process = groupProcess.processes[i];
+                    const process = processCatalog.getProcessByIndex(i);
                     //process is running
                     process.status = 'running';
                     //save the process in a file
-                    const realBurst = (process.burstTime / groupProcess.TH);
-                    if (realBurst <= process.getLengthProcess(groupProcess.description)) {
-                        const position = process.getLengthProcess(groupProcess.description) - realBurst;
+                    const realBurst = (process.burstTime / processCatalog.getTH());
+                    if (realBurst <= process.getLengthProcess(processCatalog.description)) {
+                        const position = process.getLengthProcess(processCatalog.description) - realBurst;
                         WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.getCharForDescriptionPosition(position));
                     }
+
                     //decrease the burst time
                     process.burstTime--;
                     //if the burst time is 0, the process is finished
@@ -44,14 +45,14 @@ export class Processes {
                         //agregamos el proceso a la lista de procesos terminados
                         processFinished.push(process);
                         //si el proceso termino, lo eliminamos de la lista de procesos
-                        groupProcess.processes.splice(i, 1);
+                        processCatalog.processes.splice(i, 1);
                         i--;
                         break;
                     }
                 }
                 i++;
             }
-           if (groupProcess.processes.length === 0) {
+           if (processCatalog.processes.length === 0) {
                stop = true;
            }
         }
