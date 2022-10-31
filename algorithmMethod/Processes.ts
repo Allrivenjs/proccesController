@@ -25,6 +25,8 @@ export class Processes {
                 for (let j = 0; j < quantum; j++) {
                     // verificar si el proceso esta pausado
                     this.pauseProcess(groupProcess);
+
+
                     const process = groupProcess.processes[i];
                     //process is running
                     process.status = 'running';
@@ -49,9 +51,9 @@ export class Processes {
                 }
                 i++;
             }
-        }
-        if (groupProcess.processes.length === 0) {
-            stop = true;
+           if (groupProcess.processes.length === 0) {
+               stop = true;
+           }
         }
     }
 
