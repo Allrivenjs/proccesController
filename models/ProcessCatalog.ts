@@ -23,12 +23,24 @@ export class ProcessCatalog {
         this.processes = processes;
     };
 
+    public deleteAProcessByIndex(index: number) {
+        this.processes.splice(index, 1);
+    };
+
+    public getProcessLength(): number {
+        return this.processes.length;
+    };
+
     public getUUID(): uuidv4 {
         return this.uuidv4;
     };
 
     public getName(): string {
         return this.name;
+    };
+
+    public getDescription(): string {
+        return this.description;
     };
 
     public getTH(): number {

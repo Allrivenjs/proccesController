@@ -21,7 +21,6 @@ export class Process {
     status: string;
     absoluteDescription: string;
 
-
     constructor() {
         this.PID = 0;
         this['%CPU'] = 0;

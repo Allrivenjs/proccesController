@@ -1,6 +1,6 @@
 import { WriteForFile } from "../helpers/Files/WriteForFile";
-import { Process } from "../models/procces";
 import { ProcessCatalog } from "../models/ProcessCatalog";
+import { ProcessGroup } from "../models/ProcessGroup";
 
 export class Processes {
     pause: boolean;
@@ -32,8 +32,8 @@ export class Processes {
                     process.status = 'running';
                     //save the process in a file
                     const realBurst = (process.burstTime / processCatalog.getTH());
-                    if (realBurst <= process.getLengthProcess(processCatalog.description)) {
-                        const position = process.getLengthProcess(processCatalog.description) - realBurst;
+                    if (realBurst <= process.getLengthProcess(processCatalog.getDescription())) {
+                        const position = process.getLengthProcess(processCatalog.getDescription()) - realBurst;
                         WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.getCharForDescriptionPosition(position));
                     }
 
@@ -45,7 +45,7 @@ export class Processes {
                         //agregamos el proceso a la lista de procesos terminados
                         processFinished.push(process);
                         //si el proceso termino, lo eliminamos de la lista de procesos
-                        processCatalog.processes.splice(i, 1);
+                        processCatalog.deleteAProcessByIndex(i);
                         i--;
                         break;
                     }
@@ -58,9 +58,7 @@ export class Processes {
         }
     }
 
-
-
-    public pauseProcess(groupProcess: IGroupProcess) {
+    public pauseProcess(groupProcess: ProcessGroup) {
         if (this.pause) {
             groupProcess.processes.forEach((process) => {
                 process.status = 'pause';
