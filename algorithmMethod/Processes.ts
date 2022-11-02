@@ -16,43 +16,34 @@ export class Processes {
         const path = await WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
 
         //la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
-        
         let i = 0;
         let stop = false;
         let processFinished = [];
         let k = 0;
         while(!stop) {
-            console.log('more');
             while (i < processCatalog.getProcessLength()) {
-
                 const process = processCatalog.getProcessByIndex(i);
                 // agregar accesores para la propiedad status
                 //process is running
                 process.setStatus('running');
-                //save the process in a file
-                const realBurst = (process.getBurstTime() / processCatalog.getTH());
+
                 for (let j = 0; j < quantum; j++) {
                     // verificar si el proceso esta pausado
                     this.pauseProcess(processCatalog);
                     console.log("Circle of running processes: " , k);
                     // para no siga escribiendo si no tiene nada que escribir
-                    if (realBurst <= process.getLengthProcess(processCatalog.getDescription())) {
-                        console.log(realBurst);
-                        const position = process.getLengthProcess(processCatalog.getDescription()) - realBurst;
-                        console.log("Position: ", position);
-                        console.log(process.getCharForDescriptionPosition(position));
-                        // REMOVE / OF COMMAND NAME OF THE PROCESS
+                    if (process.cycle <= process.getLengthProcess(processCatalog.getDescription())) {
                         process.COMMAND = process.COMMAND[0].replace('/', '');
-                        await WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.getCharForDescriptionPosition(position));
+                        process.text = process.text + process.getCharForDescriptionPosition(process.cycle);
+                        process.cycle++;
                     }
-
                     //decrease the burst time
                     const processActualBurstTime = process.getBurstTime() - 1;
                     process.setBurstTime(processActualBurstTime);
-
                     //if the burst time is 0, the process is finished
                     if (processActualBurstTime === 0) {
                         process.setStatus('finished');
+                        await WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.text);
                         //agregamos el proceso a la lista de procesos terminados
                         processFinished.push(process);
                         //si el proceso termino, lo eliminamos de la lista de procesos
@@ -62,6 +53,7 @@ export class Processes {
                     }
                     k++;
                 }
+
                 i++;
             }
            if (processCatalog.getProcessLength() === 0) {

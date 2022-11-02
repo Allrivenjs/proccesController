@@ -20,6 +20,8 @@ export class Process {
     burstTime: number | null;
     status: string;
     absoluteDescription: string;
+    cycle: number;
+    text: string;
 
     constructor() {
         this.PID = 0;
@@ -37,6 +39,8 @@ export class Process {
         this.burstTime = 0  //change (TH * (length of description)) (TH is init for user)
         this.status = 'ready';
         this.absoluteDescription = '';
+        this.cycle = 0;
+        this.text = '';
     }
 
     public static fromObject(obj: any): Process {
@@ -68,7 +72,7 @@ export class Process {
     }
 
     public setBurstTime(burstTime: number): void {
-        this.burstTime = burstTime * this.absoluteDescription.length; 
+        this.burstTime = burstTime * this.absoluteDescription.length;
     }
 
     public getBurstTime(): number {
@@ -76,11 +80,11 @@ export class Process {
     }
 
     public getLengthProcess(description: string): number {
-        return description.length + this.toString().length;
+        return description.length //+ this.toString().length;
     }
 
     public setAbsoluteDescription(description: string) {
-        this.absoluteDescription = description + this.toString();
+        this.absoluteDescription = description //+ this.toString();
     }
 
     public getAbsoluteDescription(): string {
