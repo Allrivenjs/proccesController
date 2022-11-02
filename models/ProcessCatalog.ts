@@ -18,7 +18,8 @@ export class ProcessCatalog {
 
     public setProcesses(processes: Array<Process>) {
         processes.map( (process) => {
-            process.setBurstTime(this.TH * this.description.length);
+            process.setAbsoluteDescription(this.description);
+            process.setBurstTime(this.TH);
         });
         this.processes = processes;
     };
@@ -28,7 +29,7 @@ export class ProcessCatalog {
     };
 
     public getProcessLength(): number {
-        return this.processes.length;
+        return this.processes.length - 1;
     };
 
     public getUUID(): uuidv4 {

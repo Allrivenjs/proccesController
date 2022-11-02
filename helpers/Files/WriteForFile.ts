@@ -21,8 +21,8 @@ export class WriteForFile {
         return fs.existsSync(path);
     }
 
-    public static createDirectory(path: string): string {
-        fs.mkdirSync(path)
+    public static async createDirectory(path: string): Promise<string> {
+        await fs.promises.mkdir(path, { recursive: true });
         return path;
-    }
+    };
 }

@@ -34,7 +34,7 @@ export class Process {
         this.STARTED = '';
         this.TIME = '';
         this.CMD = '';
-        this.burstTime = 0  //change (TH * (length of description of group process)) (TH is init for user)
+        this.burstTime = 0  //change (TH * (length of description)) (TH is init for user)
         this.status = 'ready';
         this.absoluteDescription = '';
     }
@@ -58,8 +58,21 @@ export class Process {
         return process;
     }
 
+
+    public setStatus(status: string): void {
+        this.status = status; 
+    }
+
+    public getStatus(): string {
+        return this.status;
+    }
+
     public setBurstTime(burstTime: number): void {
-        this.burstTime = burstTime; 
+        this.burstTime = burstTime * this.absoluteDescription.length; 
+    }
+
+    public getBurstTime(): number {
+        return this.burstTime; 
     }
 
     public getLengthProcess(description: string): number {
