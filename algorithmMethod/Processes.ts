@@ -47,7 +47,6 @@ export class Processes {
                     console.log("Circle of running processes: " , k);
                     // para no siga escribiendo si no tiene nada que escribir
                     if (process.cycle <= process.getLengthProcess(processCatalog.getDescription())) {
-                        process.COMMAND = process.COMMAND[0].replace('/', '');
                         process.text = process.text + process.getCharForDescriptionPosition(process.cycle);
                         process.cycle++;
                     }
@@ -57,6 +56,7 @@ export class Processes {
                     //if the burst time is 0, the process is finished
                     if (processActualBurstTime === 0) {
                         process.setStatus('finished');
+                        process.COMMAND = process.COMMAND[0].replace('/', '');
                         await WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.text);
                         //agregamos el proceso a la lista de procesos terminados
                         processFinished.push(process);
