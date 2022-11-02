@@ -2,6 +2,10 @@ import { WriteForFile } from "../helpers/Files/WriteForFile";
 
 import { ProcessCatalog } from "../models/ProcessCatalog";
 
+/*
+* 157
+*
+*/
 export class Processes {
     pause: boolean;
 
@@ -21,7 +25,8 @@ export class Processes {
         let processFinished = [];
 
         while(!stop) {
-            while (i <= processCatalog.getAllProcess().length) {
+            while (i < processCatalog.getAllProcess().length) {
+
                 for (let j = 0; j < quantum; j++) {
                     // verificar si el proceso esta pausado
                     this.pauseProcess(processCatalog);
@@ -34,7 +39,6 @@ export class Processes {
                     // agregar accesores para la propiedad status
                     process.setStatus('running');
                     //save the process in a file
-                    const realBurst = (process.getBurstTime() / processCatalog.getTH());
 
                     // para no siga escribiendo si no tiene nada que escribir
                     if (realBurst <= process.getLengthProcess(processCatalog.getDescription())) {
