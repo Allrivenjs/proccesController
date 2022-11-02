@@ -1,12 +1,8 @@
 import * as fs from "fs";
 
 export class WriteForFile {
-    public static writeForFile(path: string, data: string): void {
-        fs.writeFile(path, data, function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
+    public static async writeForFile(path: string, data: string): Promise<void> {
+        await fs.promises.writeFile(path, data);
     }
 
     public static readForFile(path: string): string {

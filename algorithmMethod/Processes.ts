@@ -1,6 +1,7 @@
 import { WriteForFile } from "../helpers/Files/WriteForFile";
 
 import { ProcessCatalog } from "../models/ProcessCatalog";
+import {ProcessGroup} from "../models/ProcessGroup";
 
 export class Processes {
     pause: boolean;
@@ -19,27 +20,30 @@ export class Processes {
         let i = 0;
         let stop = false;
         let processFinished = [];
-
+        let k = 0;
         while(!stop) {
-            while (i <= processCatalog.getAllProcess().length) {
+            console.log('more');
+            while (i < processCatalog.getProcessLength()) {
+
+                const process = processCatalog.getProcessByIndex(i);
+                // agregar accesores para la propiedad status
+                //process is running
+                process.setStatus('running');
+                //save the process in a file
+                const realBurst = (process.getBurstTime() / processCatalog.getTH());
                 for (let j = 0; j < quantum; j++) {
                     // verificar si el proceso esta pausado
                     this.pauseProcess(processCatalog);
-                    console.log('hola: ', i);
-
-
-                    const process = processCatalog.getProcessByIndex(i);
-                    //process is running
-
-                    // agregar accesores para la propiedad status
-                    process.setStatus('running');
-                    //save the process in a file
-                    const realBurst = (process.getBurstTime() / processCatalog.getTH());
-
+                    console.log("Circle of running processes: " , k);
                     // para no siga escribiendo si no tiene nada que escribir
                     if (realBurst <= process.getLengthProcess(processCatalog.getDescription())) {
+                        console.log(realBurst);
                         const position = process.getLengthProcess(processCatalog.getDescription()) - realBurst;
-                        WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.getCharForDescriptionPosition(position));
+                        console.log("Position: ", position);
+                        console.log(process.getCharForDescriptionPosition(position));
+                        // REMOVE / OF COMMAND NAME OF THE PROCESS
+                        process.COMMAND = process.COMMAND[0].replace('/', '');
+                        await WriteForFile.writeForFile(`${path}/${process.COMMAND}.txt`, process.getCharForDescriptionPosition(position));
                     }
 
                     //decrease the burst time
@@ -55,8 +59,9 @@ export class Processes {
                         processCatalog.deleteAProcessByIndex(i);
                         i--;
                         break;
-                    };
-                };
+                    }
+                    k++;
+                }
                 i++;
             }
            if (processCatalog.getProcessLength() === 0) {

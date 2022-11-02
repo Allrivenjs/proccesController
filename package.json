@@ -4,12 +4,12 @@
   "description": "task scheduler program",
   "main": "index.ts",
   "repository": "https://github.com/Allrivenjs/proccesController.git",
-  "author": "Fabián Sánchez <faalsaru@gmail.com>",
+  "author": "Fabián Sánchez <faalsaru@gmail.com> and Jaime Ruiz <jaimeruizxdd2@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "node index.ts",
     "dev": "nodemon index.ts",
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "express": "^4.18.2",
