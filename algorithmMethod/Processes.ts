@@ -36,10 +36,6 @@ export class Processes {
                     this.pauseProcess(processCatalog);
                     console.log('hola: ', i);
 
-
-                    const process = processCatalog.getProcessByIndex(i);
-                    //process is running
-
                     // agregar accesores para la propiedad status
                     process.setStatus('running');
                     //save the process in a file
