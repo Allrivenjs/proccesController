@@ -79,8 +79,8 @@ export class Process {
         return this.burstTime; 
     }
 
-    public getLengthProcess(description: string): number {
-        return description.length //+ this.toString().length;
+    public getDescriptionLength(): number {
+        return this.absoluteDescription.length //+ this.toString().length;
     }
 
     public setAbsoluteDescription(description: string) {
@@ -94,10 +94,12 @@ export class Process {
     public setupProcess(catalogDescription: string, TH: number) {
         this.absoluteDescription = 'Catalog info: \n' + catalogDescription + '\n\nProcess info:\n' + this.toString();
         this.burstTime = TH * this.absoluteDescription.length;
+        this.COMMAND = this.COMMAND[0].replace('/', '');
         this.status = 'ready';
     };
 
     public getCharForDescriptionPosition(position: number): string {
+        if (position > this.absoluteDescription.length) return '';
         return this.absoluteDescription[position];
     }
 

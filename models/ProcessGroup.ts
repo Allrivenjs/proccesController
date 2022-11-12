@@ -62,6 +62,6 @@ export class ProcessGroup {
     }
 
     private static generateRandomTH(): number {
-        return Math.floor(Math.random() * (10 - 1) + 5);
+        return Math.random() * (1 - 0.1) + 0.1;
     };
 }
