@@ -72,7 +72,7 @@ export class Process {
     }
 
     public setBurstTime(burstTime: number): void {
-        this.burstTime = burstTime * this.absoluteDescription.length;
+        this.burstTime = burstTime;
     }
 
     public getBurstTime(): number {
@@ -84,12 +84,18 @@ export class Process {
     }
 
     public setAbsoluteDescription(description: string) {
-        this.absoluteDescription = description //+ this.toString();
+        this.absoluteDescription = description;
     }
 
     public getAbsoluteDescription(): string {
         return this.absoluteDescription;
     }
+
+    public setupProcess(catalogDescription: string, TH: number) {
+        this.absoluteDescription = 'Catalog info: \n' + catalogDescription + '\n\nProcess info:\n' + this.toString();
+        this.burstTime = TH * this.absoluteDescription.length;
+        this.status = 'ready';
+    };
 
     public getCharForDescriptionPosition(position: number): string {
         return this.absoluteDescription[position];
@@ -111,7 +117,7 @@ export class Process {
 
     public static async fromBash(): Promise<Process[]> {
         return await new Promise((resolve: any, _) => {
-            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 10`, (err: any, stdout: string, _: string) => {
+            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 4`, (err: any, stdout: string, _: string) => {
                 resolve(Process.fromString(stdout));
             });
         });

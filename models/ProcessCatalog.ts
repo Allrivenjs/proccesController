@@ -18,15 +18,13 @@ export class ProcessCatalog {
 
     public setProcesses(processes: Array<Process>) {
         processes.map( (process) => {
-            process.setAbsoluteDescription(this.description);
-            process.status = 'ready';
-            process.setBurstTime(this.TH);
+            process.setupProcess(this.description, this.TH);
         });
         this.processes = processes;
     };
 
     public deleteAProcessByIndex(index: number) {
-        this.processes.splice(index, 1);
+        return this.processes.splice(index, 1);
     };
 
     public getProcessLength(): number {
