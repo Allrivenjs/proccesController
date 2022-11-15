@@ -1,7 +1,8 @@
-import { sleep } from "../helpers";
-import { WriteForFile } from "../helpers/Files/WriteForFile";
+import { io } from '..';
+import { sleep } from '../helpers';
+import { WriteForFile } from '../helpers/Files/WriteForFile';
 
-import { ProcessCatalog } from "../models/ProcessCatalog";
+import { ProcessCatalog } from '../models/ProcessCatalog';
 
 /*
 * 157
@@ -14,7 +15,7 @@ export class Processes {
         this.pause = false;
     }
 
-    public async mockRoundRobin2(processCatalog: ProcessCatalog, quantum: number) {
+    public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
         const path = await WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
         console.log(path);
 
@@ -24,7 +25,7 @@ export class Processes {
         let k = 0;
 
         while (true) {
-            console.log("**** ITERACIÓN **** #: " + k);
+            console.log('**** ITERACIÓN **** #: ' + k);
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
                 const process = processCatalog.getProcessByIndex(i);
                 
@@ -32,6 +33,8 @@ export class Processes {
                     process.text += process.getCharForDescriptionPosition(process.text.length);
                     await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                     await sleep(process.burstTime);
+
+                    io.emit('frotend');
                 };
 
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);

@@ -1,9 +1,9 @@
-import { Processes } from "../algorithmMethod/Processes";
-import { ProcessGroup } from "../models/ProcessGroup";
+import { Processes } from '../algorithmMethod/Processes';
+import { ProcessGroup } from '../models/ProcessGroup';
 
-export const ejecutable = async  () => {
+export const ejecutabe = async () => {
 	const catalogIndex = ProcessGroup.createAProcessCatalog();
 	await ProcessGroup.fillCatalogProcess(catalogIndex);
 	const processesCaller = new Processes();
-	await processesCaller.mockRoundRobin2(ProcessGroup.getAProcessCatalogByIndex(catalogIndex), 10);
-}
+	await processesCaller.roundRobin(ProcessGroup.getAProcessCatalogByIndex(catalogIndex), 10);
+};

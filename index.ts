@@ -1,18 +1,21 @@
-import routes from "./routes/routes";
+import routes from './routes/routes';
+
 import express, { Request, Response } from 'express';
-import {ejecutable} from "./tests/process.test";
 
-import http from 'http';
+import { createServer } from 'http';
 
-import { createServer } from "http";
-import { Server } from "socket.io";
+import { Server } from 'socket.io';
+import { ejecutabe } from './tests/process.test';
 
 const app = express();
 
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   // options
+  cors: {
+    origin: ['http://localhost:5173'],
+  }
 });
 
 io.on('connection', (socket) => {
@@ -26,7 +29,7 @@ io.on('connection', (socket) => {
   });
 });
 
-ejecutable();
+ejecutabe();
 
 app.get('/', (request: Request, res: Response) => {
   res.json({ hello: 'world' });
@@ -37,6 +40,6 @@ app.get('/', (request: Request, res: Response) => {
 // app.use(express.urlencoded({ extended: false }));
 // app.use(routes);
 //
-httpServer.listen(3000, () => {
- 	console.log('Server on port 3000');
+httpServer.listen(4000, () => {
+ 	console.log('Server on port 4000');
 });
