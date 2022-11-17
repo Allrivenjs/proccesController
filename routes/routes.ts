@@ -24,7 +24,6 @@ router.get('/do-round-robin', async (req, res) => {
 		})
 		worker.postMessage('start');
 	});
-	res.json({ status: 'doing round robin' });
 });
 
 router.get('/pause-round-robin', async (req, res) => {

@@ -3,7 +3,7 @@ import { parentPort } from 'worker_threads';
 let isPaused = false;
 
 parentPort.on('message', (data) => {
-	console.log('worker message jiji:', data);
+	console.log('worker message:', data);
 	switch (data) {
 		case 'start':
 			mockRoundRobin();
@@ -16,11 +16,6 @@ parentPort.on('message', (data) => {
 			break;
 	}
 })
-
-parentPort.on('toggle-paused', (data) => {
-	console.log('worker message:', data);
-	isPaused = !isPaused;
-});
 
 const mockRoundRobin = async () => {
 	let i = 0;
