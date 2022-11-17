@@ -29,17 +29,17 @@ io.on('connection', (socket) => {
   });
 });
 
-ejecutabe();
+// ejecutabe();
 
 app.get('/', (request: Request, res: Response) => {
   res.json({ hello: 'world' });
 });
 
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(routes);
-//
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(routes);
+
 httpServer.listen(4000, () => {
  	console.log('Server on port 4000');
 });

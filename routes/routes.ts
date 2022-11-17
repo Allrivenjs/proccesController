@@ -7,7 +7,7 @@ import { Worker } from 'worker_threads';
 import { getBashProcess } from '../controllers/bashController';
 // import { indexController } from '../controllers/indexController';
 //
-
+const worker = new Worker('./worker.js');
 
 
 const router = Router();
@@ -18,14 +18,19 @@ router.get('/process/:id', (req, res) => {
 });
 
 router.get('/do-round-robin', async (req, res) => {
-	const worker = new Worker('./worker.js');
-	worker.on('message', (data: any) => {
-		res.json({ status: 'doing round robin' });
+	await new Promise((resolve) => {
+		worker.once('message', (data) => {
+			console.log('worker message:', data);
+		})
+		worker.postMessage('start');
 	});
+	res.json({ status: 'doing round robin' });
 });
 
-router.get('/pause-round-robin', (req, res) => {
-	res.json({ status: 'paused' });
+router.get('/pause-round-robin', async (req, res) => {
+	await new Promise((resolve) => {
+		worker.postMessage('pause');
+	});
 });
 
 export default router;
