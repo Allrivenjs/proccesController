@@ -1,6 +1,7 @@
 import { ProcessCatalog } from "./ProcessCatalog";
 import { v4 as uuidv4 } from 'uuid';
 import { Process } from "./procces";
+import * as fs from 'fs';
 
 /*
 * Class to store a group of ProcessCatalog and the functionality
@@ -67,4 +68,9 @@ export class ProcessGroup {
     private static generateRandomTH(): number {
         return Math.random() * (1 - 0.1) + 0.1;
     };
+
+    public static saveGroupProcess(): void {
+        fs.writeFileSync('./group-process.json', JSON.stringify(this.groupProcesses));
+    }
+
 }
