@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
 
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridSelectionModel } from '@mui/x-data-grid';
 
 import { IProcess } from '../interfaces';
 
@@ -34,19 +34,30 @@ const columns: GridColDef[] = [
 
 interface ProcessTableProps {
   processes: Array<IProcess>;
-}
+  selectionModel: GridSelectionModel;
+  setSelectionModel: (selectionModel: GridSelectionModel) => void;
+};
 
-export const ProcessTable: FC<ProcessTableProps> = ({ processes }) => {
+export const ProcessTable: FC<ProcessTableProps> = ({ 
+  processes, 
+  selectionModel,
+  setSelectionModel,
+}) => {
+
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       {
         processes && (
           <DataGrid
+            checkboxSelection
             rows={ processes }
             columns={columns}
             pageSize={10}
             rowsPerPageOptions={[10]}
-            checkboxSelection
+            onSelectionModelChange={(newSelectionModel) => {
+              setSelectionModel(newSelectionModel);
+            }}
+            selectionModel={selectionModel}
           />
         )
       }

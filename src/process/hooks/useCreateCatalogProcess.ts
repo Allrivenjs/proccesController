@@ -1,17 +1,45 @@
-import { useForm } from "react-hook-form";
+import { GridSelectionModel } from '@mui/x-data-grid';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import axiosClient from '../../apis/axiosClient';
+import { ICreateProcessCatalog, IProcess } from '../interfaces';
 
-const useCreateCatalogProcess = () => {
+export const useCreateCatalogProcess = ( processes: IProcess[], selectionModel: GridSelectionModel ) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-		} = useForm<number>({
+		getValues,
+	} = useForm<ICreateProcessCatalog>({
 		defaultValues: {
-			number: '',
+			name: '',
+			th: 0,
 		},
 	});
 
-	return {
+	const [loading, setLoading] = useState(false);
 
+	const onSubmit = handleSubmit(async () => {
+		setLoading(true);
+
+		const body = {
+			...getValues(),
+			processes: [
+				...selectionModel.map( (value) => processes[value as number]),
+			],
+		};
+
+		const { data } = await axiosClient.post(
+			`create-group-process`, body,
+		);
+		setLoading(false);
+	});
+
+	return {
+		register,
+
+		onSubmit,
+
+		loading,
 	};
 };

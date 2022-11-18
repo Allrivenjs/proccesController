@@ -51,3 +51,10 @@ export enum Stat {
 export enum User {
     Root = "root",
 }
+
+
+export interface ICreateProcessCatalog {
+    name: string;
+    th: number;
+    processes: IProcess[],
+};
