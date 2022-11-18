@@ -102,7 +102,7 @@ export class Processes {
   public async pauseProcess() {
     if (this.getPause()) {
       while (this.getPause()) {
-        await sleep(1000);
+        await new Promise((resolve) => console.log("paused"));
       }
     }
   }
