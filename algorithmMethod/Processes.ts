@@ -108,13 +108,9 @@ export class Processes {
     while (this.pause) {
       console.log(this.pause);
       console.log('ahora mismo si esta pausado');
-      parentPort.postMessage({
-        'type': 'pause',
-        'data': {
-          status: "finished-algorithm",
-        }
-      })
-      sleep(1000);
+      sleep(1000).then(() => {
+        console.log('esperando');
+      });
     }
   }
 
