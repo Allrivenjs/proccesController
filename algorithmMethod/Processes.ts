@@ -101,9 +101,8 @@ export class Processes {
 
   public async pauseProcess() {
     if (this.getPause()) {
-      while (this.getPause()) {
-        await new Promise((resolve) => console.log("paused"));
-      }
+      await sleep(1000);
+      await this.pauseProcess();
     }
   }
 
