@@ -24,7 +24,6 @@ router.post("/do-round-robin", async (req, res) => {
     worker.once('message', ({ type, data }) => {
       switch (type) {
         case "round-robin":
-          console.log( "data es esta:: ->>>> ", data);
           const { processCatalog, process, iteration } = data;
           sendSocket(processCatalog, process, iteration);
           break;
