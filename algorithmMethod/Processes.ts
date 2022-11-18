@@ -30,7 +30,7 @@ export class Processes {
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
                 const process = processCatalog.getProcessByIndex(i);
                 if(process.start === 0) {
-                    process.start = start++;
+                    process.start = start + 1;
                 }
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
@@ -44,8 +44,6 @@ export class Processes {
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
-                            timeFinished += process.burstTime;
-                            process.finished = timeFinished;
                             break;
                         }
                     }
