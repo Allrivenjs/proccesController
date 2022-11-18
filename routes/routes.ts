@@ -21,7 +21,7 @@ router.get('/process/:id', (req, res) => {
 
 });
 
-router.get('/do-round-robin', async (req, res) => {
+router.post('/do-round-robin', async (req, res) => {
 	const {processesCatalogIndex, quantum} = req.body;
 	const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(processesCatalogIndex);
 	const process = new Processes();
