@@ -36,5 +36,6 @@ export const useRoundRobin = (
     onStartRoundRobin,
 
     loading,
+    quantum: getValues('quantum'),
   };
 };

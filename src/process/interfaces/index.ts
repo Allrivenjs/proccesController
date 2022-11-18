@@ -22,6 +22,7 @@ export interface IProcessDirty {
     text:                string;
 }
 
+
 export interface IProcess {
     id: number;
     PID:                 string;
