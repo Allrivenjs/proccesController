@@ -5,8 +5,8 @@ export class WriteForFile {
     await fs.promises.writeFile(path, data);
   }
 
-  public static readForFile(path: string): string {
-    return fs.readFileSync(path, "utf8");
+  public static async readForFile(path: string): Promise<string> {
+    return await fs.promises.readFile(path, "utf8");
   }
 
   public static deleteForFile(path: string): void {

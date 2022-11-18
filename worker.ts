@@ -9,7 +9,6 @@ parentPort.on("message", async ({ type, data }) => {
   switch (type) {
     case "start":
       await ProcessGroup.loadGroupProcess();
-
       const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
         data.processesCatalogIndex
       );

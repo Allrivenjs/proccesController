@@ -2,6 +2,7 @@ import { ProcessCatalog } from "./ProcessCatalog";
 import { v4 as uuidv4 } from "uuid";
 import { Process } from "./procces";
 import * as fs from "fs";
+import { WriteForFile } from '../helpers/Files/WriteForFile';
 
 /*
  * Class to store a group of ProcessCatalog and the functionality
@@ -76,16 +77,15 @@ export class ProcessGroup {
   }
 
   public static async saveGroupProcess(): Promise<void> {
-    await fs.promises.writeFile(
-      "./database/group-process.json",
-      JSON.stringify(this.groupProcesses)
-    );
+    const path = "./database/group-process.json";
+    if (!WriteForFile.existsForFile(path)){
+      await WriteForFile.createDirectory(path);
+    }
+    await WriteForFile.writeForFile(path, JSON.stringify(this.groupProcesses));
   }
   public static async loadGroupProcess(): Promise<void> {
-    const data = await fs.promises.readFile(
-      "./database/group-process.json",
-      "utf-8"
-    );
+    const path = "./database/group-process.json";
+    const data = await WriteForFile.readForFile(path)
     this.groupProcesses = JSON.parse(data);
   }
 }
