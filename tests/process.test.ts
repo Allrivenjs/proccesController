@@ -5,7 +5,7 @@ export const ejecutabe = async () => {
 	const catalogIndex = ProcessGroup.createAProcessCatalog();
 	await ProcessGroup.fillCatalogProcessAuto(catalogIndex);
 	const processesCaller = new Processes();
-	await processesCaller.roundRobin(ProcessGroup.getAProcessCatalogByIndex(catalogIndex), 10);
+	await processesCaller.roundRobin(ProcessGroup.getAProcessCatalogByIndex(catalogIndex), 10, 100	);
 };
 
 
