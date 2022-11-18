@@ -16,56 +16,36 @@ const worker = new Worker('./worker.js');
 router.get("/process", getBashProcess);
 router.get("/process/:id", (req, res) => {});
 
-router.get("/do-round-robin", async (req, res) => {
-  const { processesCatalogIndex, quantum } = req.body;
-  await new Promise((resolve) => {
-    worker.once('message', ({ type, data }) => {
-      switch (type) {
-        case "start":
-          console.log(data);
-          break;
-        case "pause":
-
-          break;
-        case "resume":
-
-          break;
-      }
-    });
-    worker.postMessage({
-      'type':'start',
-      'data': {
-          processesCatalogIndex,
-          quantum
-      }
-    })
-  });
-  //
-  // const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
-  //   processesCatalogIndex
-  // );
-  // const process = new Processes();
-  // await process.roundRobin(catalogGroupProcesses, quantum);
-  // res.json({ message: "ok" });
-});
-
 router.post("/do-round-robin", async (req, res) => {
 
 
   const { processesCatalogIndex, quantum } = req.body;
   await new Promise((resolve) => {
     worker.once('message', ({ type, data }) => {
+      const { processCatalog, processes, iteration } = data;
       switch (type) {
-        case "start":
-          const  { processes } = data;
-          console.log(processes);
+        case "round-robin":
+          sendSocket(processCatalog, processes, iteration);
           break;
         case "pause":
-
+          global.socketListener.emit('pause', {
+            status: 'pause',
+            data: data,
+          });
+          break;
+        case "finished-algorithm":
+          global.socketListener.emit('finished-algorithm', {
+            status: 'finished-algorithm',
+            data: data,
+          });
+          res.json({ message: "ok" });
           break;
         case "resume":
-
-          break;
+          global.socketListener.emit('resume', {
+            status: 'resume',
+            data: data,
+          });
+        break;
       }
     });
     worker.postMessage({
@@ -112,5 +92,14 @@ router.post("/create-group-process", async (req, res) => {
     catalogIndex: catalogIndex,
   });
 });
+
+const sendSocket = (processCatalog, process, iteration) => {
+  global.socketListener.emit(process.status, {
+    status: process.status,
+    process: process,
+    processCatalog: processCatalog,
+    iteration: iteration,
+  });
+}
 
 export default router;

@@ -1,6 +1,7 @@
 import { sleep } from "../helpers";
 import { WriteForFile } from "../helpers/Files/WriteForFile";
 import { ProcessCatalog } from "../models/ProcessCatalog";
+import { parentPort } from 'worker_threads';
 
 export class Processes {
   pause: boolean;
@@ -14,7 +15,7 @@ export class Processes {
       `./processes/${processCatalog.getUUID()}`
     );
     const th = processCatalog.getTH();
-    // this.listenSocket();
+
     // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
     let processFinished = [];
     let k = 0;
@@ -28,7 +29,7 @@ export class Processes {
         if (process.start === 0) {
           process.start = start++;
         }
-        // this.sendSocket(processCatalog, process, k);
+        this.sendEvent(processCatalog, process, k);
 
         if (process.USER != "root") {
           for (let j = 0; j < quantum; j++) {
@@ -57,7 +58,7 @@ export class Processes {
           timeFinished += process.burstTime;
           process.finished = timeFinished;
           process.setStatus("finished");
-          // this.sendSocket(processCatalog, process, k);
+          this.sendEvent(processCatalog, process, k);
           processFinished = [
             ...processFinished,
             ...processCatalog.deleteAProcessByIndex(i),
@@ -73,11 +74,14 @@ export class Processes {
     }
 
     console.log("round robin finished");
-    // global.socketListener.emit("finished-algorithm", {
-    //   status: "finished-algorithm",
-    //   processCatalog: processCatalog,
-    //   processFinished: processFinished,
-    // });
+    parentPort.postMessage({
+      'type': 'finished-algorithm',
+      'data': {
+        status: "finished-algorithm",
+        processCatalog: processCatalog,
+        processFinished: processFinished,
+      }
+    })
     for (const process of processFinished) {
       console.log(
         `process ${process.PID} - ${process.COMMAND} description: `,
@@ -94,42 +98,43 @@ export class Processes {
       });
     }
     while (this.pause) {
-      global.socketListener.emit("pause-algorithm", {
-        status: "pause-algorithm",
-      });
+      parentPort.postMessage({
+        'type': 'pause',
+        'data': {
+          status: "finished-algorithm",
+        }
+      })
       await sleep(5000);
     }
   }
 
   public resumeProcess() {
     this.pause = false;
+    parentPort.postMessage({
+      'type': 'resume',
+      'data': {
+        status: "resume-algorithm",
+      }
+    })
   }
 
   public setPause() {
     this.pause = true;
   }
-  public sendSocket(processCatalog, process, iteration) {
-    global.socketListener.emit(process.status, {
-      status: process.status,
-      process: process,
-      processCatalog: processCatalog,
-      iteration: iteration,
-    });
+  public sendEvent(processCatalog, process, iteration) {
+    parentPort.postMessage({
+      'type': 'round-robin',
+      'data': {
+        processCatalog: processCatalog,
+        process: process,
+        iteration: iteration
+      }
+    })
   }
 
-  public listenSocket() {
-    global.socketListener.once("resume", () => {
-      console.log("resume");
-      this.resumeProcess();
-    });
-    global.socketListener.once("pause", () => {
-      console.log("pause");
-      this.setPause();
-    });
-  }
   public async write(processCatalog, process, k, path) {
     process.setStatus("process");
-    // this.sendSocket(processCatalog, process, k);
+    this.sendEvent(processCatalog, process, k);
     const calculatePercent =
       (process.text.length * 100) / process.getDescriptionLength();
     process.setPercent(calculatePercent);
