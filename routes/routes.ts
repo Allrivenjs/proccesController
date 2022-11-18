@@ -31,20 +31,20 @@ router.post("/do-round-robin", async (req, res) => {
         case "pause":
           global.socketListener.emit('pause', {
             status: 'pause',
-            data: data,
           });
           break;
         case "finished-algorithm":
+          const { processCatalog: processCatalogFinished, processFinished } = data;
           global.socketListener.emit('finished-algorithm', {
             status: 'finished-algorithm',
-            data: data,
+              processCatalog: processCatalogFinished,
+              processFinished: processFinished,
           });
           res.json({ message: "ok" });
           break;
         case "resume":
           global.socketListener.emit('resume', {
             status: 'resume',
-            data: data,
           });
         break;
       }
