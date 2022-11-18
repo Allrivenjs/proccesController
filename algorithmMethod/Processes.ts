@@ -134,7 +134,6 @@ export class Processes {
 
   public async write(processCatalog, process, k, path) {
     process.setStatus("process");
-    console.log(process);
     this.sendEvent(processCatalog, process, k);
     process.text += process.getCharForDescriptionPosition(process.text.length);
     const calculatePercent =
