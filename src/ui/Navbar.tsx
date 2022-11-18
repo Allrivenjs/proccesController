@@ -16,7 +16,7 @@ export const Navbar = () => {
           <MenuOutlined />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
+          Catalog group
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>

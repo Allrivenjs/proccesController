@@ -1,11 +1,11 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from 'react-hook-form';
 
 const useCreateCatalogProcess = () => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-		} = useForm<number>({
+		} = useForm<FieldValues>({
 		defaultValues: {
 			number: '',
 		},
