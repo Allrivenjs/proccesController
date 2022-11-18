@@ -92,12 +92,14 @@ export class Processes {
   }
 
   public async pauseProcess(processCatalog: ProcessCatalog) {
+    console.log('entro a pause');
     if (this.pause) {
       processCatalog.getAllProcess().forEach((process) => {
         process.status = "pause";
       });
     }
     while (this.pause) {
+      console.log('ahora mismo si esta pausado');
       parentPort.postMessage({
         'type': 'pause',
         'data': {
@@ -119,10 +121,7 @@ export class Processes {
   }
 
   public setPause() {
-    console.log("pausando");
-    console.log(this.pause);
     this.pause = true;
-    console.log(this.pause);
   }
   public sendEvent(processCatalog, process, iteration) {
     parentPort.postMessage({
