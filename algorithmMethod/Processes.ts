@@ -46,7 +46,7 @@ export class Processes {
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
-                            process.finished = timeStart - (new Date()).getMilliseconds();
+                            process.finished =  (new Date()).getMilliseconds() - timeStart;
                             process.burstTime =  process.text.length * processCatalog.getTH();
                             break;
                         }
@@ -56,7 +56,7 @@ export class Processes {
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);
 
                 if (process.text.length >= process.getDescriptionLength()) {
-                    process.finished = timeStart - (new Date()).getMilliseconds();
+                    process.finished =  (new Date()).getMilliseconds() - timeStart;
                     process.burstTime =  process.text.length * processCatalog.getTH();
                     processFinished = [
                         ...processFinished,
