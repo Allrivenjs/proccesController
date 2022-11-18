@@ -101,9 +101,9 @@ export class Processes {
 
   public pauseProcess(processCatalog: ProcessCatalog) {
     if (this.getPause()) {
-      do{
-        console.log('turdel',this.getPause());
-      }while(this.getPause())
+      this.sendEvent(processCatalog, null, null);
+      while (this.getPause()) {}
+      this.sendEvent(processCatalog, null, null);
     }
   }
 
