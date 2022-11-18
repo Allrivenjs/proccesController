@@ -1,12 +1,12 @@
-import routes from './routes/routes';
+import routes from "./routes/routes";
 
-import express, { Request, Response } from 'express';
+import express, { Request, Response } from "express";
 
-import cors from 'cors';
+import cors from "cors";
 
-import { createServer } from 'http';
+import { createServer } from "http";
 
-import { Server } from 'socket.io';
+import { Server } from "socket.io";
 
 const app = express();
 
@@ -23,24 +23,23 @@ global.socketListener = new Server(httpServer, {
   }
 });
 
-global.socketListener.on('connection', (socket) => {
-    console.log(`⚡: ${socket.id} user just connected!`);
-    socket.on('disconnect', () => {
-      console.log('🔥: A user disconnected');
-    });
+global.socketListener.on("connection", (socket) => {
+  console.log(`⚡: ${socket.id} user just connected!`);
+  socket.on("disconnect", () => {
+    console.log("🔥: A user disconnected");
+  });
 
-  socket.on('hello', () => {
-    console.log('hello world');
+  socket.on("hello", () => {
+    console.log("hello world");
   });
 });
 
 // ejecutabe();
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(routes);
 
 httpServer.listen(4000, () => {
- 	console.log('Server on port 4000');
+  console.log("Server on port 4000");
 });
