@@ -55,6 +55,12 @@ export class ProcessCatalog {
         return this.processes[index];
     };
 
+    public static fromJSON(json: any): ProcessCatalog {
+        const processCatalog = new ProcessCatalog(json.uuidv4, json.name, json.description, json.TH);
+        processCatalog.setProcesses(json.processes);
+        return processCatalog;
+    }
+
     public toString() {
         let processString = '';
 
