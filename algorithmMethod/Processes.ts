@@ -29,10 +29,21 @@ export class Processes {
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
                 const process = processCatalog.getProcessByIndex(i);
                 
-                for (let j = 0; j < quantum; j++) {
-                    process.text += process.getCharForDescriptionPosition(process.text.length);
-                    await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
-                    await sleep(process.burstTime);
+                if (process.USER != 'root') {
+                    for (let j = 0; j < quantum; j++) {
+                        process.text += process.getCharForDescriptionPosition(process.text.length);
+                        await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
+                        await sleep(process.burstTime);
+                    }
+                }else {
+                    while (true) {
+                        process.text += process.getCharForDescriptionPosition(process.text.length);
+                        await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
+                        await sleep(process.burstTime);
+                        if (process.text.length >= process.getDescriptionLength()) {
+                            break;
+                        }
+                    }
                 }
 
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);
@@ -56,6 +67,7 @@ export class Processes {
         for (const process of processFinished) {
             console.log(`process ${process.PID} - ${process.COMMAND} description: `, process.getAbsoluteDescription());
         }
+        return processFinished;
     };
 
     public pauseProcess(processCatalog: ProcessCatalog) {
