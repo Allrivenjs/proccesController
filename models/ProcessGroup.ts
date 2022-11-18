@@ -36,6 +36,7 @@ export class ProcessGroup {
     }
 
     public static getAProcessCatalogByIndex(index: number): ProcessCatalog {
+        console.log(this.groupProcesses[index])
         return this.groupProcesses[index];
     };
 
