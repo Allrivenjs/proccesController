@@ -122,7 +122,7 @@ export class Process {
         return Process.fromArray(arr);
     }
 
-    public static async fromBash(number: number): Promise<Process[]> {
+    public static async fromBash(number: number = 10): Promise<Process[]> {
         return await new Promise((resolve: any, _) => {
             exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n ${number + 1}`, (err: any, stdout: string, _: string) => {
                 resolve(Process.fromString(stdout));
