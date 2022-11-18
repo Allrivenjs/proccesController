@@ -14,7 +14,7 @@ export class Processes {
       `./processes/${processCatalog.getUUID()}`
     );
     const th = processCatalog.getTH();
-    this.listenSocket();
+    // this.listenSocket();
     // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
     let processFinished = [];
     let k = 0;
@@ -28,7 +28,7 @@ export class Processes {
         if (process.start === 0) {
           process.start = start++;
         }
-        this.sendSocket(processCatalog, process, k);
+        // this.sendSocket(processCatalog, process, k);
 
         if (process.USER != "root") {
           for (let j = 0; j < quantum; j++) {
@@ -57,7 +57,7 @@ export class Processes {
           timeFinished += process.burstTime;
           process.finished = timeFinished;
           process.setStatus("finished");
-          this.sendSocket(processCatalog, process, k);
+          // this.sendSocket(processCatalog, process, k);
           processFinished = [
             ...processFinished,
             ...processCatalog.deleteAProcessByIndex(i),
@@ -73,11 +73,11 @@ export class Processes {
     }
 
     console.log("round robin finished");
-    global.socketListener.emit("finished-algorithm", {
-      status: "finished-algorithm",
-      processCatalog: processCatalog,
-      processFinished: processFinished,
-    });
+    // global.socketListener.emit("finished-algorithm", {
+    //   status: "finished-algorithm",
+    //   processCatalog: processCatalog,
+    //   processFinished: processFinished,
+    // });
     for (const process of processFinished) {
       console.log(
         `process ${process.PID} - ${process.COMMAND} description: `,
@@ -129,7 +129,7 @@ export class Processes {
   }
   public async write(processCatalog, process, k, path) {
     process.setStatus("process");
-    this.sendSocket(processCatalog, process, k);
+    // this.sendSocket(processCatalog, process, k);
     const calculatePercent =
       (process.text.length * 100) / process.getDescriptionLength();
     process.setPercent(calculatePercent);
