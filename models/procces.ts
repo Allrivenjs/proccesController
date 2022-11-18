@@ -96,9 +96,8 @@ export class Process {
     }
 
     public setupProcess(catalogDescription: string, TH: number) {
-        this.absoluteDescription = 'Catalog info: \n' + catalogDescription;
+        this.absoluteDescription = 'Catalog info: \n' + catalogDescription + '\n\nProcess description: \n' + this.toString();
         this.burstTime = parseInt((TH * this.absoluteDescription.length).toString());
-
         this.COMMAND = this.COMMAND[0].replace('/', '');
         this.status = 'ready';
     };
@@ -139,7 +138,18 @@ export class Process {
     }
 
     public toString(): string {
-        return `PID: ${this.PID}, %CPU: ${this['%CPU']}, %MEM: ${this['%MEM']}, COMMAND: ${this.COMMAND}, USER: ${this.USER}, NI: ${this.NI}, VSZ: ${this.VSZ}, RSS: ${this.RSS}, STAT: ${this.STAT}, STARTED: ${this.STARTED}, TIME: ${this.TIME}, CMD: ${this.CMD}`;
+        return `PID: ${this.PID},
+         %CPU: ${this['%CPU']},
+          %MEM: ${this['%MEM']},
+           COMMAND: ${this.COMMAND},
+            USER: ${this.USER},
+             NI: ${this.NI},
+              VSZ: ${this.VSZ},
+               RSS: ${this.RSS},
+                STAT: ${this.STAT},
+                 STARTED: ${this.STARTED},
+                  TIME: ${this.TIME},
+                   CMD: ${this.CMD}`;
     };
 
     public toStringSimple(): string {
