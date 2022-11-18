@@ -22,7 +22,7 @@ router.post("/do-round-robin", async (req, res) => {
   const { processesCatalogIndex, quantum } = req.body;
   await new Promise((resolve) => {
     worker.once('message', ({ type, data }) => {
-      console.log(type, data);
+      console.log(data.processes);
       switch (type) {
         case "round-robin":
           const { processCatalog, processes, iteration } = data;
