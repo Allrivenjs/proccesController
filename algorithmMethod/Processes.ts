@@ -99,18 +99,14 @@ export class Processes {
     console.log("process finished: ", processFinished);
   }
 
-  public pauseProcess(processCatalog: ProcessCatalog, pause = false) {
-    if (this.pause) {
-      processCatalog.getAllProcess().forEach((process) => {
-        process.status = "pause";
-      });
-    }
-    while (this.pause) {
-      console.log('ahora mismo si esta pausado');
-      console.log('turdel',this.pause);
-      sleep(1000).then(() => {
-        console.log('esperando');
-      });
+  public pauseProcess(processCatalog: ProcessCatalog) {
+    if (this.getPause()) {
+      do{
+        console.log('turdel',this.getPause());
+        sleep(1000).then(() => {
+          console.log('esperando');
+        });
+      }while(this.getPause())
     }
   }
 
@@ -122,6 +118,9 @@ export class Processes {
         status: "resume-algorithm",
       }
     })
+  }
+  public getPause() {
+    return this.pause;
   }
 
   public setPause() {
