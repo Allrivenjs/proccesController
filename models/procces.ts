@@ -24,6 +24,7 @@ export class Process {
     text: string;
     finished: number;
     start: number;
+    percent: number;
 
     constructor() {
         this.PID = 0;
@@ -45,6 +46,7 @@ export class Process {
         this.text = '';
         this.finished = 0;
         this.start = 0;
+        this.percent = 0;
     }
 
     public static fromObject(obj: any): Process {
@@ -154,5 +156,9 @@ export class Process {
 
     public toStringSimple(): string {
         return `PID: ${this.PID}, %CPU: ${this['%CPU']}, %MEM: ${this['%MEM']}, BURST_TIME: ${this.burstTime} COMMAND: ${this.COMMAND},USER: ${this.USER}, TIME: ${this.TIME}`;
+    }
+
+    public setPercent(percent: number): void {
+        this.percent = percent;
     }
 }

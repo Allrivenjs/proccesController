@@ -69,7 +69,7 @@ export class Processes {
         }
 
         console.log('round robin finished');
-        global.socketListener.emit('processInitialized', {
+        global.socketListener.emit('finished-algorithm', {
             'status': 'finished-algorithm',
             'processCatalog': processCatalog,
             'processFinished': processFinished,
@@ -99,7 +99,7 @@ export class Processes {
         this.pause = true;
     }
     public sendSocket(processCatalog, process, iteration) {
-        global.socketListener.emit('processInitialized', {
+        global.socketListener.emit(process.status, {
             'status': process.status,
             'process': process,
             'processCatalog': processCatalog,
@@ -110,6 +110,8 @@ export class Processes {
    public async write(processCatalog, process, k, path){
         process.setStatus('process');
         this.sendSocket(processCatalog, process, k);
+        const calculatePercent = (process.text.length * 100) / process.getDescriptionLength();
+        process.setPercent(calculatePercent);
         process.text += process.getCharForDescriptionPosition(process.text.length);
         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
         await sleep(processCatalog.getTH());
