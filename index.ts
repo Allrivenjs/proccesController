@@ -7,7 +7,6 @@ import cors from 'cors';
 import { createServer } from 'http';
 
 import { Server } from 'socket.io';
-import { ejecutabe } from './tests/process.test';
 
 const app = express();
 

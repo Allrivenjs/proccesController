@@ -16,16 +16,18 @@ export class ProcessGroup {
     */
     public static createAProcessCatalog( 
         name = `process #${this.groupProcesses.length + 1}`,
-        description = 'no description',
         TH = this.generateRandomTH(),
     ): number {
         const uuid = uuidv4();
-        const processCatalog = new ProcessCatalog(uuid, name, description, TH);
+        const processCatalog = new ProcessCatalog(uuid, name, name, TH);
         return this.groupProcesses.push(processCatalog) - 1;
     };
 
-    public static async fillCatalogProcess(index: number) {
+    public static async fillCatalogProcessAuto(index: number) {
         const processes = await Process.fromBash();
+        this.groupProcesses[index].setProcesses(processes);
+    };
+    public static async fillCatalogProcess(index: number, processes: Process[]) {
         this.groupProcesses[index].setProcesses(processes);
     };
 

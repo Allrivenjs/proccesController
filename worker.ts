@@ -1,33 +1,27 @@
-import { EventEmitter } from 'events';
 import { parentPort } from 'worker_threads';
+import { Processes } from './algorithmMethod/Processes';
+import {ProcessGroup} from "./models/ProcessGroup";
 
 let isPaused = false;
 
-export const emitter = new EventEmitter();
-
-emitter.on('toggle-paused', () => {
-	isPaused = !isPaused;
-});
-
-const mockRoundRobin = async () => {
-	let i = 0;
-	while(true) {
-		if(isPaused) {
-			console.log('round robin esta pausado, no se ejecturán procesos');
-			continue;
-		}
-
-		console.log('round robin cicle');
-		await new Promise((resolve) => {
-			setTimeout(resolve, 1000);
-		});
-		i++;
-		if (i >= 5) {
-			return 'terminado';
-		}
+parentPort.on('message',async (data) => {
+	console.log('worker message:', data);
+	const process = new Processes();
+	switch (data.type) {
+		case 'start':
+			 const info = data.data;
+			 const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(info.processesCatalogIndex);
+			 await process.roundRobin(catalogGroupProcesses, info.quantum, catalogGroupProcesses.getTH());
+			break;
+		case 'pause':
+			process.setPause();
+			break;
+		case 'resume':
+			process.resumeProcess();
+			break;
 	}
-};
+})
 
-mockRoundRobin();
+
 
 parentPort.postMessage('done');

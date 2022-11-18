@@ -5,9 +5,11 @@ import { Router } from 'express';
 import { Worker } from 'worker_threads';
 
 import { getBashProcess } from '../controllers/bashController';
+import {ejecutabe} from "../tests/process.test";
+import {ProcessGroup} from "../models/ProcessGroup";
 // import { indexController } from '../controllers/indexController';
 //
-
+const worker = new Worker('./worker.js');
 
 
 const router = Router();
@@ -18,14 +20,44 @@ router.get('/process/:id', (req, res) => {
 });
 
 router.get('/do-round-robin', async (req, res) => {
-	const worker = new Worker('./worker.js');
-	worker.on('message', (data: any) => {
-		res.json({ status: 'doing round robin' });
+	const {processesCatalogIndex, quantum} = req.body;
+	await new Promise((resolve) => {
+		worker.once('message', (data) => {
+			console.log('worker message:', data);
+		})
+		worker.postMessage({
+			type: 'start',
+			data: {
+				processesCatalogIndex,
+				quantum,
+			}
+		});
+	});
+});
+router.get('/pause-round-robin', async (req, res) => {
+	await new Promise((resolve) => {
+		worker.postMessage({
+			'type': 'pause',
+		});
+	});
+});
+router.get('/resume-round-robin', async (req, res) => {
+	await new Promise((resolve) => {
+		worker.postMessage({
+			'type': 'resume',
+		});
 	});
 });
 
-router.get('/pause-round-robin', (req, res) => {
-	res.json({ status: 'paused' });
+router.post('/create-group-process', async (req, res) => {
+	const {processes, name, th} = req.body;
+	const catalogIndex = ProcessGroup.createAProcessCatalog(name, th);
+	await ProcessGroup.fillCatalogProcess(catalogIndex, processes);
+	return res.json({
+		'catalogIndex': catalogIndex,
+	});
 });
+
+
 
 export default router;

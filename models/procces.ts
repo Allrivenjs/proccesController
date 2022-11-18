@@ -22,6 +22,8 @@ export class Process {
     absoluteDescription: string;
     cycle: number;
     text: string;
+    finished: number;
+    start: number;
 
     constructor() {
         this.PID = 0;
@@ -41,6 +43,8 @@ export class Process {
         this.absoluteDescription = '';
         this.cycle = 0;
         this.text = '';
+        this.finished = 0;
+        this.start = 0;
     }
 
     public static fromObject(obj: any): Process {
@@ -92,8 +96,9 @@ export class Process {
     }
 
     public setupProcess(catalogDescription: string, TH: number) {
-        this.absoluteDescription = 'Catalog info: \n' + catalogDescription + '\n\nProcess info:\n' + this.toString();
-        this.burstTime = TH * this.absoluteDescription.length;
+        this.absoluteDescription = 'Catalog info: \n' + catalogDescription;
+        this.burstTime = parseInt((TH * this.absoluteDescription.length).toString());
+
         this.COMMAND = this.COMMAND[0].replace('/', '');
         this.status = 'ready';
     };
