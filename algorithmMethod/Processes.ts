@@ -97,7 +97,9 @@ export class Processes {
             });
         }
         while (this.pause) {
-
+            global.socketListener.emit('pause-algorithm', {
+                'status': 'pause-algorithm',
+            });
         }
     }
 
