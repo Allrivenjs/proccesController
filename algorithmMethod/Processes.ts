@@ -32,10 +32,14 @@ export class Processes {
                 if(process.start === 0) {
                     process.start = start + 1;
                 }
+
+                global.socketListener.emit('processInitialized', { pene: "pene" });
+
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
                         process.setStatus('process');
                         process.text += process.getCharForDescriptionPosition(process.text.length);
+
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                     }
