@@ -103,9 +103,6 @@ export class Processes {
     if (this.getPause()) {
       do{
         console.log('turdel',this.getPause());
-        sleep(1000).then(() => {
-          console.log('esperando');
-        });
       }while(this.getPause())
     }
   }
