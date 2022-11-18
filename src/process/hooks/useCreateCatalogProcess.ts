@@ -32,6 +32,7 @@ export const useCreateCatalogProcess = ( processes: IProcess[], selectionModel: 
 		const { data } = await axiosClient.post(
 			`create-group-process`, body,
 		);
+		console.log( data );
 		setLoading(false);
 	});
 
