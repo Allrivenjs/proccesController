@@ -19,7 +19,6 @@ parentPort.on("message", async ({ type, data }) => {
       process.setPause();
       break;
     case "resume":
-      console.log("pausando");
       process.resumeProcess();
       break;
   }
