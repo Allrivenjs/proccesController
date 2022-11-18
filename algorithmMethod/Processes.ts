@@ -34,12 +34,14 @@ export class Processes {
                 }
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
+                        process.setStatus('process');
                         process.text += process.getCharForDescriptionPosition(process.text.length);
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                     }
                 }else {
                     while (true) {
+                        process.setStatus('process');
                         process.text += process.getCharForDescriptionPosition(process.text.length);
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
@@ -54,6 +56,7 @@ export class Processes {
                 if (process.text.length >= process.getDescriptionLength()) {
                     timeFinished += process.burstTime;
                     process.finished = timeFinished;
+                    process.setStatus('finished');
                     processFinished = [
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
