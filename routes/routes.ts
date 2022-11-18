@@ -26,7 +26,7 @@ router.get('/do-round-robin', async (req, res) => {
 	const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(processesCatalogIndex);
 	const process = new Processes();
 	await process.roundRobin(catalogGroupProcesses, quantum);
-	// res.json({message: 'ok'});
+	res.json({message: 'ok'});
 });
 //
 // router.get('/pause-round-robin', async (req, res) => {
