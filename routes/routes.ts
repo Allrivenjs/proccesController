@@ -6,6 +6,7 @@ import { Worker } from 'worker_threads';
 
 import { getBashProcess } from '../controllers/bashController';
 import {ejecutabe} from "../tests/process.test";
+import {ProcessGroup} from "../models/ProcessGroup";
 // import { indexController } from '../controllers/indexController';
 //
 const worker = new Worker('./worker.js');
@@ -19,7 +20,7 @@ router.get('/process/:id', (req, res) => {
 });
 
 router.get('/do-round-robin', async (req, res) => {
-	const {processesCatalog, quantum, th} = req.body;
+	const {processesCatalogIndex, quantum} = req.body;
 	await new Promise((resolve) => {
 		worker.once('message', (data) => {
 			console.log('worker message:', data);
@@ -27,9 +28,8 @@ router.get('/do-round-robin', async (req, res) => {
 		worker.postMessage({
 			type: 'start',
 			data: {
-				processesCatalog,
+				processesCatalogIndex,
 				quantum,
-				th,
 			}
 		});
 	});
@@ -49,9 +49,13 @@ router.get('/resume-round-robin', async (req, res) => {
 	});
 });
 
-router.post('create-group-process', async (req, res) => {
-	const {processesCatalog, quantum, th} = req.body;
-
+router.post('/create-group-process', async (req, res) => {
+	const {processes, name, th} = req.body;
+	const catalogIndex = ProcessGroup.createAProcessCatalog(name, th);
+	await ProcessGroup.fillCatalogProcess(catalogIndex, processes);
+	return res.json({
+		'catalogIndex': catalogIndex,
+	});
 });
 
 

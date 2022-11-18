@@ -23,9 +23,11 @@ export class ProcessGroup {
         return this.groupProcesses.push(processCatalog) - 1;
     };
 
-    public static async fillCatalogProcess(index: number) {
+    public static async fillCatalogProcessAuto(index: number) {
         const processes = await Process.fromBash();
-        console.log(processes);
+        this.groupProcesses[index].setProcesses(processes);
+    };
+    public static async fillCatalogProcess(index: number, processes: Process[]) {
         this.groupProcesses[index].setProcesses(processes);
     };
 
