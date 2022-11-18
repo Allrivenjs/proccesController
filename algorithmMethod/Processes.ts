@@ -47,7 +47,6 @@ export class Processes {
                         await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
                             process.finished =  (new Date()).getMilliseconds() - timeStart;
-                            process.burstTime =  process.text.length * processCatalog.getTH();
                             break;
                         }
                     }
@@ -57,7 +56,6 @@ export class Processes {
 
                 if (process.text.length >= process.getDescriptionLength()) {
                     process.finished =  (new Date()).getMilliseconds() - timeStart;
-                    process.burstTime =  process.text.length * processCatalog.getTH();
                     processFinished = [
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
