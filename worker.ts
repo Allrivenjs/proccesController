@@ -12,6 +12,8 @@ parentPort.on('message',async (data) => {
 		case 'start':
 			 const info = data.data;
 			 const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(info.processesCatalogIndex);
+			 parentPort.postMessage(catalogGroupProcesses)
+			 console.log(catalogGroupProcesses)
 			 await process.roundRobin(catalogGroupProcesses, info.quantum, catalogGroupProcesses.TH);
 			break;
 		case 'pause':
