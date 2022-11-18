@@ -69,6 +69,7 @@ router.post("/do-round-robin", async (req, res) => {
 });
 //
 router.get('/pause-round-robin', async (req, res) => {
+  console.log("pausando");
 	await new Promise((resolve) => {
 		worker.postMessage({
 			'type': 'pause',
@@ -76,6 +77,7 @@ router.get('/pause-round-robin', async (req, res) => {
 	});
 });
 router.get('/resume-round-robin', async (req, res) => {
+  console.log("pausando");
 	await new Promise((resolve) => {
 		worker.postMessage({
 			'type': 'resume',
