@@ -19,7 +19,7 @@ export class Processes {
     public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
         const path = await WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
         const th = processCatalog.getTH();
-
+        this.listenSocket();
         // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
         let processFinished = [];
         let k = 0;
@@ -38,13 +38,11 @@ export class Processes {
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
                         await this.pauseProcess(processCatalog);
-                        this.listenSocket();
                         await this.write(processCatalog, process, k, path);
                     }
                 }else {
                     while (true) {
                         await this.pauseProcess(processCatalog);
-                        this.listenSocket();
                         await this.write(processCatalog, process, k, path);
                         if (process.text.length >= process.getDescriptionLength()) {
                             break;
@@ -125,7 +123,6 @@ export class Processes {
             console.log('pause');
             this.setPause();
         });
-
     }
    public async write(processCatalog, process, k, path){
         process.setStatus('process');
