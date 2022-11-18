@@ -98,6 +98,7 @@ export class ProcessGroup {
         processCatalog.description,
         processCatalog.TH
       );
+      console.log(processCatalog.processes);
       processCatalog1.setProcesses(processCatalog.processes);
       response.push(processCatalog1);
     });
