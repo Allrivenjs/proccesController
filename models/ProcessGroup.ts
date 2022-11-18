@@ -98,8 +98,12 @@ export class ProcessGroup {
         processCatalog.description,
         processCatalog.TH
       );
-      console.log(processCatalog.processes);
-      processCatalog1.setProcesses(processCatalog.processes);
+      const processes = [];
+      processCatalog.processes.forEach((process) => {
+        const process1 = Process.fromObject(process);
+        processes.push(process1);
+      });
+      processCatalog1.setProcesses(processes);
       response.push(processCatalog1);
     });
     return response;

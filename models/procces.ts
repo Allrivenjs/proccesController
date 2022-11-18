@@ -65,6 +65,12 @@ export class Process {
     process.CMD = obj.CMD;
     process.burstTime = obj.burstTime;
     process.status = obj.status;
+    process.absoluteDescription = obj.absoluteDescription;
+    process.cycle = obj.cycle;
+    process.text = obj.text;
+    process.finished = obj.finished;
+    process.start = obj.start;
+    process.percent = obj.percent;
     return process;
   }
 
