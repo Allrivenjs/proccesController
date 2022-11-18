@@ -98,6 +98,7 @@ export class Processes {
         process.status = "pause";
       });
     }
+    console.log(this.pause);
     while (this.pause) {
       console.log('ahora mismo si esta pausado');
       parentPort.postMessage({
