@@ -101,9 +101,7 @@ export class Processes {
 
   public pauseProcess(processCatalog: ProcessCatalog) {
     if (this.getPause()) {
-      this.sendEvent(processCatalog, null, null);
       while (this.getPause()) {}
-      this.sendEvent(processCatalog, null, null);
     }
   }
 
