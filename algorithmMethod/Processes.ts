@@ -14,9 +14,11 @@ export class Processes {
     constructor() {
         this.pause = false;
         global.socketListener.on('resume', () => {
+            console.log('resume');
             this.resumeProcess();
         });
         global.socketListener.on('pause', () => {
+            console.log('pause');
             this.setPause();
         });
     }
