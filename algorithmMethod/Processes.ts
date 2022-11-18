@@ -15,8 +15,9 @@ export class Processes {
         this.pause = false;
     }
 
-    public async roundRobin(processCatalog: ProcessCatalog, quantum: number, th: number = 0) {
+    public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
         const path = await WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
+        const th = processCatalog.getTH();
         console.log(path);
 
         // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
