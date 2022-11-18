@@ -1,6 +1,6 @@
 import routes from "./routes/routes";
 
-import express, { Request, Response } from "express";
+import express from "express";
 
 import cors from "cors";
 
@@ -13,13 +13,13 @@ const app = express();
 const httpServer = createServer(app);
 
 app.use(
-  cors({origin: ['*']})
+  cors({origin: '*'})
 );
 
 global.socketListener = new Server(httpServer, {
   // options
   cors: {
-    origin: ['*'],
+    origin: '*',
   }
 });
 
