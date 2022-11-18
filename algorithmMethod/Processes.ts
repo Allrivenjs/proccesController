@@ -38,7 +38,7 @@ export class Processes {
           }
         } else {
           while (true) {
-            await this.pauseProcess(processCatalog);
+            this.pauseProcess(processCatalog);
             await this.write(processCatalog, process, k, path);
             if (process.text.length >= process.getDescriptionLength()) {
               break;
@@ -91,14 +91,12 @@ export class Processes {
     console.log("process finished: ", processFinished);
   }
 
-  public async pauseProcess(processCatalog: ProcessCatalog) {
-    console.log('entro a pause');
+  public pauseProcess(processCatalog: ProcessCatalog, pause = false) {
     if (this.pause) {
       processCatalog.getAllProcess().forEach((process) => {
         process.status = "pause";
       });
     }
-    console.log(this.pause);
     while (this.pause) {
       console.log('ahora mismo si esta pausado');
       parentPort.postMessage({
@@ -107,7 +105,7 @@ export class Processes {
           status: "finished-algorithm",
         }
       })
-      await sleep(5000);
+      sleep(5000);
     }
   }
 
