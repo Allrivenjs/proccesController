@@ -71,15 +71,16 @@ router.get('/pause-round-robin', async (req, res) => {
 	await new Promise((resolve) => {
 		worker.postMessage({
 			'type': 'pause',
+      'data': {}
 		});
     res.json({ message: "ok" });
 	});
 });
 router.get('/resume-round-robin', async (req, res) => {
-
 	await new Promise((resolve) => {
 		worker.postMessage({
 			'type': 'resume',
+      'data': {}
 		});
     res.json({ message: "ok" });
 	});
