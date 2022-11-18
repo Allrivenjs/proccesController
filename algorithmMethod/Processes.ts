@@ -76,7 +76,7 @@ export class Processes {
         for (const process of processFinished) {
             console.log(`process ${process.PID} - ${process.COMMAND} description: `, process.getAbsoluteDescription());
         }
-        console.log('process finished: ', processFinished.length);
+        console.log('process finished: ', processFinished);
         return processFinished;
     };
 
