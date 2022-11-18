@@ -5539,6 +5539,11 @@
 "prepend-http@^1.0.1":
   "version" "1.0.4"
 
+"prettier@2.7.1":
+  "integrity" "sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g=="
+  "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.7.1.tgz"
+  "version" "2.7.1"
+
 "pretty-format@^29.0.0", "pretty-format@^29.2.1":
   "integrity" "sha512-Y41Sa4aLCtKAXvwuIpTvcFBkyeYp2gdFWzXGA+ZNES3VwURIB165XO/z7CjETwzCCS53MjW/rLMyyqEnTtaOfA=="
   "resolved" "https://registry.npmjs.org/pretty-format/-/pretty-format-29.2.1.tgz"
