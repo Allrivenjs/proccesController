@@ -66,11 +66,11 @@ export class Process {
     process.burstTime = obj.burstTime;
     process.status = obj.status;
     process.absoluteDescription = obj.absoluteDescription;
-    process.cycle = obj.cycle;
-    process.text = obj.text;
-    process.finished = obj.finished;
-    process.start = obj.start;
-    process.percent = obj.percent;
+    process.cycle = obj.cycle || 0;
+    process.text = obj.text  || '';
+    process.finished = obj.finished  || 0;
+    process.start = obj.start  || 0;
+    process.percent = obj.percent  || 0;
     return process;
   }
 
