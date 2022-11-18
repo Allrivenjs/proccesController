@@ -23,31 +23,24 @@ export class Processes {
         let processFinished = [];
         let k = 0;
         let timeFinished = 0;
-        let start = 0;
+        let start = 1;
 
         while (true) {
             console.log('**** ITERACIÓN **** #: ' + k);
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
                 const process = processCatalog.getProcessByIndex(i);
                 if(process.start === 0) {
-                    process.start = start + 1;
+                    process.start = start++;
                 }
-                global.socketListener.emit('processInitialized', { pene: "pene" });
+                this.sendSocket(processCatalog, process, k);
 
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
-                        process.setStatus('process');
-                        process.text += process.getCharForDescriptionPosition(process.text.length);
-
-                        await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
-                        await sleep(processCatalog.getTH());
+                        await this.write(processCatalog, process, k, path);
                     }
                 }else {
                     while (true) {
-                        process.setStatus('process');
-                        process.text += process.getCharForDescriptionPosition(process.text.length);
-                        await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
-                        await sleep(processCatalog.getTH());
+                        await this.write(processCatalog, process, k, path);
                         if (process.text.length >= process.getDescriptionLength()) {
                             break;
                         }
@@ -60,6 +53,7 @@ export class Processes {
                     timeFinished += process.burstTime;
                     process.finished = timeFinished;
                     process.setStatus('finished');
+                    this.sendSocket(processCatalog, process, k);
                     processFinished = [
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
@@ -75,11 +69,15 @@ export class Processes {
         }
 
         console.log('round robin finished');
+        global.socketListener.emit('processInitialized', {
+            'status': 'finished-algorithm',
+            'processCatalog': processCatalog,
+            'processFinished': processFinished,
+        });
         for (const process of processFinished) {
             console.log(`process ${process.PID} - ${process.COMMAND} description: `, process.getAbsoluteDescription());
         }
         console.log('process finished: ', processFinished);
-        return processFinished;
     };
 
     public pauseProcess(processCatalog: ProcessCatalog) {
@@ -100,4 +98,21 @@ export class Processes {
     public setPause() {
         this.pause = true;
     }
+    public sendSocket(processCatalog, process, iteration) {
+        global.socketListener.emit('processInitialized', {
+            'status': process.status,
+            'process': process,
+            'processCatalog': processCatalog,
+            'iteration': iteration,
+
+        });
+    }
+   public async write(processCatalog, process, k, path){
+        process.setStatus('process');
+        this.sendSocket(processCatalog, process, k);
+        process.text += process.getCharForDescriptionPosition(process.text.length);
+        await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
+        await sleep(processCatalog.getTH());
+    }
+
 }
