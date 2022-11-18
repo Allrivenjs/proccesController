@@ -41,12 +41,12 @@ export class Processes {
 
         if (process.USER != "root") {
           for (let j = 0; j < quantum; j++) {
-            this.pauseProcess(processCatalog);
+            await this.pauseProcess();
             await this.write(processCatalog, process, k, path);
           }
         } else {
           while (true) {
-            this.pauseProcess(processCatalog);
+            await this.pauseProcess();
             await this.write(processCatalog, process, k, path);
             if (process.text.length >= process.getDescriptionLength()) {
               break;
@@ -99,13 +99,15 @@ export class Processes {
     console.log("process finished: ", processFinished);
   }
 
-  public pauseProcess(processCatalog: ProcessCatalog) {
+  public async pauseProcess() {
     if (this.getPause()) {
-      while (this.getPause()) {}
+      while (this.getPause()) {
+        await sleep(1000);
+      }
     }
   }
 
-  public resumeProcess() {
+  public  resumeProcess() {
     this.pause = false;
     parentPort.postMessage({
       'type': 'resume',
