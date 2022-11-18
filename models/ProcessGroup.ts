@@ -90,7 +90,8 @@ export class ProcessGroup {
   }
 
   public static fromArray(array: any): ProcessCatalog[] {
-    return array.map((processCatalog) => {
+    const response = [];
+    array.forEach((processCatalog) => {
       const processCatalog1 =  new ProcessCatalog(
         processCatalog.uuid,
         processCatalog.name,
@@ -98,8 +99,9 @@ export class ProcessGroup {
         processCatalog.TH
       );
       processCatalog1.setProcesses(processCatalog.processes);
-      return processCatalog1;
+      response.push(processCatalog1);
     });
+    return response;
   }
 
 
