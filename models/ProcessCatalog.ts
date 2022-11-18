@@ -6,7 +6,7 @@ export class ProcessCatalog {
     private readonly name: string;
     private readonly description: string;
     private processes: Array<Process>;
-    private readonly TH: number;
+    public readonly TH: number;
 
     constructor( uuidv4: uuidv4, name: string, description: string, TH: number ) {
         this.uuidv4 = uuidv4;
