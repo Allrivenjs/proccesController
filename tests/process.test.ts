@@ -7,3 +7,10 @@ export const ejecutabe = async () => {
 	const processesCaller = new Processes();
 	await processesCaller.roundRobin(ProcessGroup.getAProcessCatalogByIndex(catalogIndex), 10);
 };
+
+
+describe('Process', () => {
+	it('should run', async () => {
+		await ejecutabe();
+	});
+});

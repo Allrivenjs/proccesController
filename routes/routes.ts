@@ -5,6 +5,7 @@ import { Router } from 'express';
 import { Worker } from 'worker_threads';
 
 import { getBashProcess } from '../controllers/bashController';
+import {ejecutabe} from "../tests/process.test";
 // import { indexController } from '../controllers/indexController';
 //
 const worker = new Worker('./worker.js');
@@ -33,7 +34,6 @@ router.get('/do-round-robin', async (req, res) => {
 		});
 	});
 });
-
 router.get('/pause-round-robin', async (req, res) => {
 	await new Promise((resolve) => {
 		worker.postMessage({
@@ -47,6 +47,11 @@ router.get('/resume-round-robin', async (req, res) => {
 			'type': 'resume',
 		});
 	});
+});
+
+router.post('create-group-process', async (req, res) => {
+	const {processesCatalog, quantum, th} = req.body;
+
 });
 
 

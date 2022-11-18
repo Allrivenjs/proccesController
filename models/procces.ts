@@ -92,7 +92,7 @@ export class Process {
     }
 
     public setupProcess(catalogDescription: string, TH: number) {
-        this.absoluteDescription = 'Catalog info: \n' + catalogDescription + '\n\nProcess info:\n' + this.toString();
+        this.absoluteDescription = 'Catalog info: \n' + catalogDescription;
         this.burstTime = TH * this.absoluteDescription.length;
         this.COMMAND = this.COMMAND[0].replace('/', '');
         this.status = 'ready';
