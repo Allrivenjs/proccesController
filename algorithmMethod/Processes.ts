@@ -20,7 +20,6 @@ export class Processes {
         console.log(path);
 
         // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
-        let stop = false;
         let processFinished = [];
         let k = 0;
 
@@ -39,7 +38,7 @@ export class Processes {
                     while (true) {
                         process.text += process.getCharForDescriptionPosition(process.text.length);
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
-                        await sleep(process.burstTime);
+                        await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
                             break;
                         }
@@ -67,6 +66,7 @@ export class Processes {
         for (const process of processFinished) {
             console.log(`process ${process.PID} - ${process.COMMAND} description: `, process.getAbsoluteDescription());
         }
+        console.log('process finished: ', processFinished.length);
         return processFinished;
     };
 
