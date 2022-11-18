@@ -25,8 +25,6 @@ export class Processes {
         let timeFinished = 0;
         let start = 0;
 
-        let timeStart = (new Date()).getMilliseconds();
-
         while (true) {
             console.log('**** ITERACIÓN **** #: ' + k);
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
@@ -46,7 +44,8 @@ export class Processes {
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
-                            process.finished =  (new Date()).getMilliseconds() - timeStart;
+                            timeFinished += process.burstTime;
+                            process.finished = timeFinished;
                             break;
                         }
                     }
@@ -55,7 +54,8 @@ export class Processes {
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);
 
                 if (process.text.length >= process.getDescriptionLength()) {
-                    process.finished =  (new Date()).getMilliseconds() - timeStart;
+                    timeFinished += process.burstTime;
+                    process.finished = timeFinished;
                     processFinished = [
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
