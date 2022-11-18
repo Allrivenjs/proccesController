@@ -22,6 +22,8 @@ export class Process {
     absoluteDescription: string;
     cycle: number;
     text: string;
+    finished: number;
+    start: number;
 
     constructor() {
         this.PID = 0;
@@ -41,6 +43,8 @@ export class Process {
         this.absoluteDescription = '';
         this.cycle = 0;
         this.text = '';
+        this.finished = 0;
+        this.start = 0;
     }
 
     public static fromObject(obj: any): Process {

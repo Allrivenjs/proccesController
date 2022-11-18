@@ -22,17 +22,23 @@ export class Processes {
         // la descripcion del procesos, es la descripcion del grupo + los datos del proceso.
         let processFinished = [];
         let k = 0;
+        let timeFinished = 0;
+        let start = 0;
+
+        let timeStart = (new Date()).getMilliseconds();
 
         while (true) {
             console.log('**** ITERACIÓN **** #: ' + k);
             for (let i = 0; i < processCatalog.getAllProcess().length; i++) {
                 const process = processCatalog.getProcessByIndex(i);
-                
+                if(process.start === 0) {
+                    process.start = start++;
+                }
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
                         process.text += process.getCharForDescriptionPosition(process.text.length);
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
-                        await sleep(process.burstTime);
+                        await sleep(processCatalog.getTH());
                     }
                 }else {
                     while (true) {
@@ -40,6 +46,8 @@ export class Processes {
                         await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                         await sleep(processCatalog.getTH());
                         if (process.text.length >= process.getDescriptionLength()) {
+                            process.finished = timeStart - (new Date()).getMilliseconds();
+                            process.burstTime =  process.text.length * processCatalog.getTH();
                             break;
                         }
                     }
@@ -48,6 +56,8 @@ export class Processes {
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);
 
                 if (process.text.length >= process.getDescriptionLength()) {
+                    process.finished = timeStart - (new Date()).getMilliseconds();
+                    process.burstTime =  process.text.length * processCatalog.getTH();
                     processFinished = [
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
