@@ -57,7 +57,8 @@ router.post("/do-round-robin", async (req, res) => {
     worker.once('message', ({ type, data }) => {
       switch (type) {
         case "start":
-          console.log(data);
+          const  { processes } = data;
+          console.log(processes);
           break;
         case "pause":
 
