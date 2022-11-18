@@ -5,7 +5,6 @@ import express, { Request, Response } from 'express';
 import { createServer } from 'http';
 
 import { Server } from 'socket.io';
-import { ejecutabe } from './tests/process.test';
 
 const app = express();
 
@@ -29,7 +28,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// ejecutabe();
+
 
 app.get('/', (request: Request, res: Response) => {
   res.json({ hello: 'world' });

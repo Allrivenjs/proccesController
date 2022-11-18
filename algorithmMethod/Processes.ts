@@ -1,4 +1,4 @@
-import { io } from '..';
+
 import { sleep } from '../helpers';
 import { WriteForFile } from '../helpers/Files/WriteForFile';
 
@@ -15,7 +15,7 @@ export class Processes {
         this.pause = false;
     }
 
-    public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
+    public async roundRobin(processCatalog: ProcessCatalog, quantum: number, th: number = 0) {
         const path = await WriteForFile.createDirectory(`./processes/${processCatalog.getUUID()}`);
         console.log(path);
 
@@ -33,9 +33,7 @@ export class Processes {
                     process.text += process.getCharForDescriptionPosition(process.text.length);
                     await WriteForFile.writeForFile(`./${path}/${process.COMMAND}-${process.PID}.txt`, process.text);
                     await sleep(process.burstTime);
-
-                    io.emit('frotend');
-                };
+                }
 
                 console.log(` - doing process ${process.PID} - ${process.COMMAND} - left caracters to write ${process.getDescriptionLength() - process.text.length}`);
 
@@ -44,20 +42,20 @@ export class Processes {
                         ...processFinished,
                         ...processCatalog.deleteAProcessByIndex(i),
                     ];
-                };
-            };
+                }
+            }
 
             if (processCatalog.getProcessLength() === 0) {
                 break;
-            };
+            }
 
         k++;
-        };
+        }
 
         console.log('round robin finished');
         for (const process of processFinished) {
             console.log(`process ${process.PID} - ${process.COMMAND} description: `, process.getAbsoluteDescription());
-        };
+        }
     };
 
     public pauseProcess(processCatalog: ProcessCatalog) {
@@ -78,4 +76,4 @@ export class Processes {
     public setPause() {
         this.pause = true;
     }
-};
+}

@@ -18,18 +18,37 @@ router.get('/process/:id', (req, res) => {
 });
 
 router.get('/do-round-robin', async (req, res) => {
+	const {processesCatalog, quantum, th} = req.body;
 	await new Promise((resolve) => {
 		worker.once('message', (data) => {
 			console.log('worker message:', data);
 		})
-		worker.postMessage('start');
+		worker.postMessage({
+			type: 'start',
+			data: {
+				processesCatalog,
+				quantum,
+				th,
+			}
+		});
 	});
 });
 
 router.get('/pause-round-robin', async (req, res) => {
 	await new Promise((resolve) => {
-		worker.postMessage('pause');
+		worker.postMessage({
+			'type': 'pause',
+		});
 	});
 });
+router.get('/resume-round-robin', async (req, res) => {
+	await new Promise((resolve) => {
+		worker.postMessage({
+			'type': 'resume',
+		});
+	});
+});
+
+
 
 export default router;

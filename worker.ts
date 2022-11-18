@@ -1,43 +1,25 @@
 import { parentPort } from 'worker_threads';
+import { Processes } from './algorithmMethod/Processes';
 
 let isPaused = false;
 
-parentPort.on('message', (data) => {
+parentPort.on('message',async (data) => {
 	console.log('worker message:', data);
-	switch (data) {
+	const process = new Processes();
+	switch (data.type) {
 		case 'start':
-			mockRoundRobin();
+			const info = data.data;
+			 await process.roundRobin(info.processesCatalog, info.quantum, info.th);
 			break;
 		case 'pause':
-			isPaused = true;
+			process.setPause();
 			break;
 		case 'resume':
-			isPaused = false;
+			process.resumeProcess();
 			break;
 	}
 })
 
-const mockRoundRobin = async () => {
-	let i = 0;
-	while(true) {
-		if(isPaused) {
-			console.log('round robin esta pausado, no se ejecturán procesos');
-			parentPort.postMessage('fue pausado');
-			continue;
-		}
-		console.log('round robin cicle');
-		parentPort.postMessage('Esta ejecutando');
-		await new Promise((resolve) => {
-			setTimeout(resolve, 1000);
-		});
-		i++;
-		if (i >= 5) {
-			parentPort.postMessage('finalizo');
-		}
-	}
-};
-
-// mockRoundRobin();
 
 
 parentPort.postMessage('done');
