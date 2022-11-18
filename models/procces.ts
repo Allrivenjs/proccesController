@@ -124,7 +124,7 @@ export class Process {
 
     public static async fromBash(): Promise<Process[]> {
         return await new Promise((resolve: any, _) => {
-            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 10`, (err: any, stdout: string, _: string) => {
+            exec(`ps -eo %cpu,%mem,pid,comm,user,nice,vsz,rss,stat,start,time,cmd | head -n 4`, (err: any, stdout: string, _: string) => {
                 resolve(Process.fromString(stdout));
             });
         });
