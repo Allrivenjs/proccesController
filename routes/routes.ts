@@ -16,6 +16,7 @@ const router = Router();
 router.get("/process", getBashProcess);
 router.get("/process/:id", (req, res) => {});
 
+
 router.get("/do-round-robin", async (req, res) => {
   const { processesCatalogIndex, quantum } = req.body;
   const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
@@ -24,6 +25,16 @@ router.get("/do-round-robin", async (req, res) => {
   const process = new Processes();
   await process.roundRobin(catalogGroupProcesses, quantum);
   res.json({ message: "ok" });
+
+});
+
+router.post('/do-round-robin', async (req, res) => {
+	const {processesCatalogIndex, quantum} = req.body;
+	const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(processesCatalogIndex);
+	const process = new Processes();
+	await process.roundRobin(catalogGroupProcesses, quantum);
+	res.json({message: 'ok'});
+
 });
 //
 // router.get('/pause-round-robin', async (req, res) => {
