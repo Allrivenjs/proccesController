@@ -8,6 +8,8 @@ let isPaused = false;
 
 parentPort.on('message',async (data) => {
 	console.log('worker message:', data);
+	const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(data.data.processesCatalogIndex);
+	console.log(catalogGroupProcesses)
 	const process = new Processes();
 	switch (data.type) {
 		case 'start':
