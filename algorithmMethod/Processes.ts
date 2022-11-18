@@ -13,14 +13,7 @@ export class Processes {
 
     constructor() {
         this.pause = false;
-        global.socketListener.on('resume', () => {
-            console.log('resume');
-            this.resumeProcess();
-        });
-        global.socketListener.on('pause', () => {
-            console.log('pause');
-            this.setPause();
-        });
+
     }
 
     public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
@@ -44,12 +37,14 @@ export class Processes {
 
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
-                        this.pauseProcess(processCatalog);
+                        await this.pauseProcess(processCatalog);
+                        this.listenSocket();
                         await this.write(processCatalog, process, k, path);
                     }
                 }else {
                     while (true) {
-                        this.pauseProcess(processCatalog);
+                        await this.pauseProcess(processCatalog);
+                        this.listenSocket();
                         await this.write(processCatalog, process, k, path);
                         if (process.text.length >= process.getDescriptionLength()) {
                             break;
@@ -119,6 +114,18 @@ export class Processes {
             'iteration': iteration,
 
         });
+    }
+
+    public listenSocket() {
+        global.socketListener.once('resume', () => {
+            console.log('resume');
+            this.resumeProcess();
+        });
+        global.socketListener.once('pause', () => {
+            console.log('pause');
+            this.setPause();
+        });
+
     }
    public async write(processCatalog, process, k, path){
         process.setStatus('process');
