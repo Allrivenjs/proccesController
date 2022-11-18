@@ -135,10 +135,10 @@ export class Processes {
   public async write(processCatalog, process, k, path) {
     process.setStatus("process");
     this.sendEvent(processCatalog, process, k);
+    process.text += process.getCharForDescriptionPosition(process.text.length);
     const calculatePercent =
       (process.text.length * 100) / process.getDescriptionLength();
     process.setPercent(calculatePercent);
-    process.text += process.getCharForDescriptionPosition(process.text.length);
     await WriteForFile.writeForFile(
       `./${path}/${process.COMMAND}-${process.PID}.txt`,
       process.text
