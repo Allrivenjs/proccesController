@@ -52,7 +52,9 @@ router.get('/resume-round-robin', async (req, res) => {
 
 router.post('/create-group-process', async (req, res) => {
 	const {processes, name, th} = req.body;
+
 	const processesArray = Process.fromArray(processes);
+
 	const catalogIndex = ProcessGroup.createAProcessCatalog(name, th);
 	await ProcessGroup.fillCatalogProcess(catalogIndex, processesArray);
 	return res.json({
