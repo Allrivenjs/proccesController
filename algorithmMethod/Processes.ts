@@ -41,7 +41,7 @@ export class Processes {
 
         if (process.USER != "root") {
           for (let j = 0; j < quantum; j++) {
-            await this.pauseProcess(processCatalog);
+            this.pauseProcess(processCatalog);
             await this.write(processCatalog, process, k, path);
           }
         } else {
