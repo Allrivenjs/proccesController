@@ -1,7 +1,7 @@
 import { parentPort } from 'worker_threads';
 import { Processes } from './algorithmMethod/Processes';
 import {ProcessGroup} from "./models/ProcessGroup";
-import { ProcessCatalog } from './models/ProcessCatalog';
+
 
 let isPaused = false;
 
