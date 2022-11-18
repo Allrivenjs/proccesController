@@ -90,7 +90,7 @@ export class Processes {
         console.log('process finished: ', processFinished);
     };
 
-    public pauseProcess(processCatalog: ProcessCatalog) {
+    public async pauseProcess(processCatalog: ProcessCatalog) {
         if (this.pause) {
             processCatalog.getAllProcess().forEach((process) => {
                 process.status = 'pause';
@@ -100,6 +100,7 @@ export class Processes {
             global.socketListener.emit('pause-algorithm', {
                 'status': 'pause-algorithm',
             });
+            await sleep(5000);
         }
     }
 
