@@ -119,7 +119,10 @@ export class Processes {
   }
 
   public setPause() {
+    console.log("pausando");
+    console.log(this.pause);
     this.pause = true;
+    console.log(this.pause);
   }
   public sendEvent(processCatalog, process, iteration) {
     parentPort.postMessage({
