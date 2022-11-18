@@ -32,7 +32,6 @@ export class Processes {
                 if(process.start === 0) {
                     process.start = start + 1;
                 }
-
                 global.socketListener.emit('processInitialized', { pene: "pene" });
 
                 if (process.USER != 'root') {
