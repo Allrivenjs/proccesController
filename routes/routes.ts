@@ -74,6 +74,7 @@ router.get('/pause-round-robin', async (req, res) => {
 		worker.postMessage({
 			'type': 'pause',
 		});
+    res.json({ message: "ok" });
 	});
 });
 router.get('/resume-round-robin', async (req, res) => {
@@ -82,7 +83,9 @@ router.get('/resume-round-robin', async (req, res) => {
 		worker.postMessage({
 			'type': 'resume',
 		});
+    res.json({ message: "ok" });
 	});
+
 });
 
 router.post("/create-group-process", async (req, res) => {
