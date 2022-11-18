@@ -1,4 +1,4 @@
-import { CarRepair, Memory } from '@mui/icons-material';
+import { Memory } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -42,11 +42,10 @@ export const CreateProcessCatalogFormModal: FC<Props> = ({
   selectionModel,
   processes,
 }) => {
-  const { 
-    register,
-    onSubmit,
-    loading,
-  } = useCreateCatalogProcess( processes, selectionModel );
+  const { register, onSubmit, loading } = useCreateCatalogProcess(
+    processes,
+    selectionModel
+  );
 
   return (
     <Modal
@@ -60,20 +59,14 @@ export const CreateProcessCatalogFormModal: FC<Props> = ({
           Crear un nuevo catalogo
         </Typography>
         <Stack spacing={2}>
-          <TextField 
-            multiline 
-            label="Nombre del catalogo" 
-            { ...register('name') }
+          <TextField
+            multiline
+            label="Nombre del catalogo"
+            {...register('name')}
           />
-          <TextField 
-            label="TH"
-            { ...register('th') }
-          />
+          <TextField label="TH" {...register('th')} />
 
-          <Typography 
-            id="modal-modal-title" 
-            variant="h6"
-          >
+          <Typography id="modal-modal-title" variant="h6">
             Procesos a agregar
           </Typography>
 
@@ -91,9 +84,9 @@ export const CreateProcessCatalogFormModal: FC<Props> = ({
             ))}
           </List>
 
-          <Button 
-            onClick={ onSubmit }
-            variant="contained" 
+          <Button
+            onClick={onSubmit}
+            variant="contained"
             disabled={selectionModel.length <= 0}
           >
             Crear nuevo catalogo

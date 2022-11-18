@@ -1,8 +1,9 @@
-import { GridSelectionModel } from '@mui/x-data-grid';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../apis/axiosClient';
 import { ICreateProcessCatalog, IProcess } from '../interfaces';
+import { GridSelectionModel } from '@mui/x-data-grid';
 
 export const useCreateCatalogProcess = ( processes: IProcess[], selectionModel: GridSelectionModel ) => {
 	const {
@@ -16,6 +17,8 @@ export const useCreateCatalogProcess = ( processes: IProcess[], selectionModel: 
 			th: 0,
 		},
 	});
+
+	const navigate = useNavigate();
 
 	const [loading, setLoading] = useState(false);
 
@@ -33,6 +36,9 @@ export const useCreateCatalogProcess = ( processes: IProcess[], selectionModel: 
 			`create-group-process`, body,
 		);
 		console.log( data );
+		
+		navigate(`/round-robin/${data.catalogIndex}`);
+
 		setLoading(false);
 	});
 
