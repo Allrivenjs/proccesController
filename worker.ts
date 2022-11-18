@@ -19,7 +19,7 @@ parentPort.on("message", async ({ type, data }) => {
           'processes': catalogGroupProcesses,
         }
       })
-      await process.roundRobin(catalogGroupProcesses, data.quantum);
+      // await process.roundRobin(catalogGroupProcesses, data.quantum);
       break;
     case "pause":
       process.setPause();
