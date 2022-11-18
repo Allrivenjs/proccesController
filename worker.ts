@@ -5,10 +5,21 @@ import { ProcessGroup } from "./models/ProcessGroup";
 let isPaused = false;
 
 parentPort.on("message", async ({ type, data }) => {
-  console.log("worker message:", data);
   const process = new Processes();
   switch (type) {
     case "start":
+      await ProcessGroup.loadGroupProcess();
+
+      const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
+        data.processesCatalogIndex
+      );
+      parentPort.postMessage({
+        'type': 'start',
+        'data': {
+          'processes': catalogGroupProcesses,
+        }
+      })
+      await process.roundRobin(catalogGroupProcesses, data.quantum);
       break;
     case "pause":
       process.setPause();

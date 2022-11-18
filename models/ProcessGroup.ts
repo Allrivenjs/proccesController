@@ -36,7 +36,6 @@ export class ProcessGroup {
   }
 
   public static getAProcessCatalogByIndex(index: number): ProcessCatalog {
-    console.log(this.groupProcesses[index]);
     return this.groupProcesses[index];
   }
 
@@ -76,10 +75,17 @@ export class ProcessGroup {
     return Math.random() * (1 - 0.1) + 0.1;
   }
 
-  public static saveGroupProcess(): void {
-    fs.writeFileSync(
-      "./group-process.json",
+  public static async saveGroupProcess(): Promise<void> {
+    await fs.promises.writeFile(
+      "./database/group-process.json",
       JSON.stringify(this.groupProcesses)
     );
+  }
+  public static async loadGroupProcess(): Promise<void> {
+    const data = await fs.promises.readFile(
+      "./database/group-process.json",
+      "utf-8"
+    );
+    this.groupProcesses = JSON.parse(data);
   }
 }
