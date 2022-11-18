@@ -79,7 +79,7 @@ export class ProcessGroup {
   public static async saveGroupProcess(): Promise<void> {
     const path = "./database/group-process.json";
     if (!WriteForFile.existsForFile(path)){
-      await WriteForFile.createDirectory(path);
+      await WriteForFile.createDirectory('./database');
     }
     await WriteForFile.writeForFile(path, JSON.stringify(this.groupProcesses));
   }
