@@ -86,6 +86,21 @@ export class ProcessGroup {
   public static async loadGroupProcess(): Promise<void> {
     const path = "./database/group-process.json";
     const data = await WriteForFile.readForFile(path)
-    this.groupProcesses = JSON.parse(data);
+    this.groupProcesses = this.fromArray(JSON.parse(data));
   }
+
+  public static fromArray(array: any): ProcessCatalog[] {
+    return array.map((processCatalog) => {
+      const processCatalog1 =  new ProcessCatalog(
+        processCatalog.uuid,
+        processCatalog.name,
+        processCatalog.description,
+        processCatalog.TH
+      );
+      processCatalog1.setProcesses(processCatalog.processes);
+      return processCatalog1;
+    });
+  }
+
+
 }
