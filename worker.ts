@@ -12,6 +12,7 @@ parentPort.on('message',async (data) => {
 		case 'start':
 			 const info = data.data;
 			 const catalogGroupProcessesJson = ProcessGroup.getAProcessCatalogByIndex(info.processesCatalogIndex);
+			 console.log('catalogGroupProcessesJson', catalogGroupProcessesJson);
 			 const catalogGroupProcesses = ProcessCatalog.fromJSON(catalogGroupProcessesJson);
 			 await process.roundRobin(catalogGroupProcesses, info.quantum, catalogGroupProcesses.getTH());
 			break;
