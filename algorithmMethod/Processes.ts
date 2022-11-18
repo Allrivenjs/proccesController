@@ -13,6 +13,12 @@ export class Processes {
 
     constructor() {
         this.pause = false;
+        global.socketListener.on('resume', () => {
+            this.resumeProcess();
+        });
+        global.socketListener.on('pause', () => {
+            this.setPause();
+        });
     }
 
     public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
@@ -36,10 +42,12 @@ export class Processes {
 
                 if (process.USER != 'root') {
                     for (let j = 0; j < quantum; j++) {
+                        this.pauseProcess(processCatalog);
                         await this.write(processCatalog, process, k, path);
                     }
                 }else {
                     while (true) {
+                        this.pauseProcess(processCatalog);
                         await this.write(processCatalog, process, k, path);
                         if (process.text.length >= process.getDescriptionLength()) {
                             break;
@@ -87,7 +95,7 @@ export class Processes {
             });
         }
         while (this.pause) {
-            //:D
+
         }
     }
 
