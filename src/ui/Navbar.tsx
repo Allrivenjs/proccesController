@@ -18,11 +18,8 @@ export const Navbar = () => {
           *</IconButton>
           */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-<<<<<<< HEAD
           O.S - Laboratorio de procesos
-=======
           Catalog group
->>>>>>> a709cd12b13c08eb3459de905676b0245c1e3c7a
         </Typography>
       </Toolbar>
     </AppBar>
