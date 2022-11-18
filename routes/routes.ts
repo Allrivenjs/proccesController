@@ -7,6 +7,7 @@ import { Worker } from 'worker_threads';
 import { getBashProcess } from '../controllers/bashController';
 import {ejecutabe} from "../tests/process.test";
 import {ProcessGroup} from "../models/ProcessGroup";
+import { Process } from '../models/procces';
 // import { indexController } from '../controllers/indexController';
 //
 const worker = new Worker('./worker.js');
@@ -51,10 +52,9 @@ router.get('/resume-round-robin', async (req, res) => {
 
 router.post('/create-group-process', async (req, res) => {
 	const {processes, name, th} = req.body;
-
+	const processesArray = Process.fromArray(processes);
 	const catalogIndex = ProcessGroup.createAProcessCatalog(name, th);
-	await ProcessGroup.fillCatalogProcess(catalogIndex, processes);
-
+	await ProcessGroup.fillCatalogProcess(catalogIndex, processesArray);
 	return res.json({
 		'catalogIndex': catalogIndex,
 	});
