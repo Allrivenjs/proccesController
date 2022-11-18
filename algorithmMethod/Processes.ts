@@ -106,8 +106,8 @@ export class Processes {
       });
     }
     while (this.pause) {
-      console.log(this.pause);
       console.log('ahora mismo si esta pausado');
+      console.log('turdel',this.pause);
       sleep(1000).then(() => {
         console.log('esperando');
       });
