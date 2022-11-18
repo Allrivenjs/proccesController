@@ -50,13 +50,40 @@ router.get("/do-round-robin", async (req, res) => {
 });
 
 router.post("/do-round-robin", async (req, res) => {
+
+
   const { processesCatalogIndex, quantum } = req.body;
-  const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
-    processesCatalogIndex
-  );
-  const process = new Processes();
-  await process.roundRobin(catalogGroupProcesses, quantum);
-  res.json({ message: "ok" });
+  await new Promise((resolve) => {
+    worker.once('message', ({ type, data }) => {
+      switch (type) {
+        case "start":
+          console.log(data);
+          break;
+        case "pause":
+
+          break;
+        case "resume":
+
+          break;
+      }
+    });
+    worker.postMessage({
+      'type':'start',
+      'data': {
+        processesCatalogIndex,
+        quantum
+      }
+    })
+  });
+
+
+  // const { processesCatalogIndex, quantum } = req.body;
+  // const catalogGroupProcesses = ProcessGroup.getAProcessCatalogByIndex(
+  //   processesCatalogIndex
+  // );
+  // const process = new Processes();
+  // await process.roundRobin(catalogGroupProcesses, quantum);
+  // res.json({ message: "ok" });
 });
 //
 router.get('/pause-round-robin', async (req, res) => {
