@@ -18,7 +18,7 @@ export class ProcessCatalog {
   }
 
   public setProcesses(processes: Array<Process>) {
-    processes.map((process) => {
+    processes.forEach((process) => {
       process.setupProcess(this.description, this.TH);
     });
     this.processes = processes;
