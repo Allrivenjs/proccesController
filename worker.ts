@@ -5,7 +5,7 @@ import { ProcessGroup } from "./models/ProcessGroup";
 let isPaused = false;
 
 parentPort.on("message", async ({ type, data }) => {
-  const process = new Processes();
+  const process = Processes.getInstance();
   switch (type) {
     case "start":
       await ProcessGroup.loadGroupProcess();

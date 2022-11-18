@@ -5,9 +5,17 @@ import { parentPort } from 'worker_threads';
 
 export class Processes {
   pause: boolean;
+  static instance: Processes;
 
   constructor() {
     this.pause = false;
+  }
+
+  static getInstance() {
+    if (!Processes.instance) {
+      Processes.instance = new Processes();
+    }
+    return Processes.instance;
   }
 
   public async roundRobin(processCatalog: ProcessCatalog, quantum: number) {
