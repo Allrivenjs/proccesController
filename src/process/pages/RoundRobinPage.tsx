@@ -14,11 +14,14 @@ import { useRoundRobin } from '../hooks';
 import { Stack } from '@mui/system';
 import { ProcessCard } from '../components/ProcessCard';
 
+import { motion } from 'framer-motion';
+
 import io from 'socket.io-client';
 import { useEffect, useState } from 'react';
 import { IProcessEvent, ProcessCatalog, ProcessEventResponse, ProcessFinishedEventResponse } from '../interfaces/events';
 
 import { Reports } from '../components/Reports';
+import axiosClient from '../../apis/axiosClient';
 
 const socket = io('http://localhost:4000');
 
@@ -32,6 +35,8 @@ export const RoundRobinPage = () => {
   const [processesCatalog, setProcessesCatalog] = useState<ProcessCatalog>();
   const [processes, setProcesses] = useState<IProcessEvent[]>([]);
   const [processesFinished, setProcessesFinished] = useState<IProcessEvent[]>([]);
+
+  const [isPaused, setPaused] = useState(false);
 
   const [isReportsVisible, setIsReportsVisible] = useState(false);
 
@@ -62,14 +67,14 @@ export const RoundRobinPage = () => {
             return {
               ...data.process,
               percent: 100,
-            };
+            };2
           };
           return process;
         })
       });
     });
 
-    socket.on('finished-algorithm', ( data: ProcessFinishedEventResponse ) => {
+    socket.on('finished-algorithm', ( data ) => {
       setProcessesFinished( data.processFinished );
     });
 
@@ -77,6 +82,21 @@ export const RoundRobinPage = () => {
       console.log('pausado')
     });
   }, []);
+
+
+  const onPause = async () => {
+    setPaused(true);
+    console.log('pausando...');
+    const { data } = await axiosClient.get('/pause-round-robin');
+    console.log('pausando data:', data)
+  };
+
+  const onResume = async () => {
+    setPaused(false);
+    console.log('resumiendo...');
+    const { data } = await axiosClient.get('/resume-round-robin');
+    console.log('resumiendo data:', data)
+  };
 
   return (
     <AppLayout>
@@ -95,8 +115,8 @@ export const RoundRobinPage = () => {
             <Button variant="contained" disabled={ loading } onClick={ onStartRoundRobin }>
               Empezar algoritmo de Round Robin
             </Button>
-            <Button variant="contained" disabled={ processes.length <= 0 } onClick={ () => socket.emit('pause') }>
-              Pausar
+            <Button variant="contained" disabled={ processes.length <= 0 } onClick={ isPaused ? onResume : onPause }>
+              { isPaused ? 'Reanudar': 'Pausar' }
             </Button>
           </Box>
 
@@ -127,7 +147,17 @@ export const RoundRobinPage = () => {
           >
             {
               processes.map((process) => (
-                <ProcessCard key={ process.PID } process={ process } />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5 }}
+
+                  key={ process.PID } 
+                >
+                  <ProcessCard 
+                    process={ process } 
+                  />
+                </motion.div>
               ))
             }
           </Stack>
