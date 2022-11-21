@@ -103,7 +103,8 @@ router.post("/create-group-process", async (req, res) => {
 
 
 router.get("/process-group", async (req, res) => {
-  const processGroup = await ProcessGroup.loadGroupProcess();
+  await ProcessGroup.loadGroupProcess();
+  const processGroup = ProcessGroup.getAllProcessCatalogs();
   return res.json(processGroup);
 });
 

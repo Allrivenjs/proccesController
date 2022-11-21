@@ -83,6 +83,7 @@ export class ProcessGroup {
     }
     await WriteForFile.writeForFile(path, JSON.stringify(this.groupProcesses));
   }
+
   public static async loadGroupProcess(): Promise<void> {
     const path = "./database/group-process.json";
     const data = await WriteForFile.readForFile(path)
