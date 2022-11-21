@@ -5,7 +5,7 @@ import EventEmitter from "events";
 import { Router } from "express";
 import { Worker } from "worker_threads";
 
-import { getBashProcess } from "../controllers/bashController";
+import { getBashProcess, getBashProcessByOrder } from '../controllers/bashController';
 
 import { ProcessGroup } from "../models/ProcessGroup";
 import { Process } from "../models/procces";
@@ -13,7 +13,11 @@ import { Processes } from "../algorithmMethod/Processes";
 
 const router = Router();
 const worker = new Worker('./worker.js');
+
 router.get("/process", getBashProcess);
+
+router.get("/processByOrder", getBashProcessByOrder);
+
 router.get("/process/:id", (req, res) => {});
 
 router.post("/do-round-robin", async (req, res) => {
@@ -66,7 +70,6 @@ router.post("/do-round-robin", async (req, res) => {
   // await process.roundRobin(catalogGroupProcesses, quantum);
   // res.json({ message: "ok" });
 });
-//
 router.get('/pause-round-robin', async (req, res) => {
 	await new Promise((resolve) => {
 		worker.postMessage({
@@ -96,6 +99,12 @@ router.post("/create-group-process", async (req, res) => {
   return res.json({
     catalogIndex: catalogIndex,
   });
+});
+
+
+router.get("/process-group", async (req, res) => {
+  const processGroup = await ProcessGroup.loadGroupProcess();
+  return res.json(processGroup);
 });
 
 const sendSocket = (processCatalog, process, iteration) => {

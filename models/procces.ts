@@ -128,6 +128,30 @@ export class Process {
     return processes;
   }
 
+  public static orderByMaxCPU(processes: Process[]): Process[] {
+    return processes.sort((a: Process, b: Process) => {
+      return b["%CPU"] - a["%CPU"];
+    });
+  }
+
+  public static orderByMaxMEM(processes: Process[]): Process[] {
+    return processes.sort((a: Process, b: Process) => {
+      return b["%MEM"] - a["%MEM"];
+    });
+  }
+
+  public static orderByMinCPU(processes: Process[]): Process[] {
+    return processes.sort((a: Process, b: Process) => {
+      return a["%CPU"] - b["%CPU"];
+    });
+  }
+
+  public static orderByMinMEM(processes: Process[]): Process[] {
+    return processes.sort((a: Process, b: Process) => {
+      return a["%MEM"] - b["%MEM"];
+    });
+  }
+
   public static fromString(str: string): Process[] {
     const arr = Parser.parse(str);
     return Process.fromArray(arr);
