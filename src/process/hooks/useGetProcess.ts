@@ -6,6 +6,13 @@ import { cleanProcessData } from '../../helpers';
 
 import { GetProcessesResponse, IProcess, IProcessDirty } from '../interfaces';
 
+
+export type ProcessOrder = 
+	'maxCpu' | 
+	'minCpu' | 
+	'maxMem' | 
+	'minMem';
+
 export const useGetProcess = () => {
 	const {
 		register,
@@ -28,28 +35,26 @@ export const useGetProcess = () => {
 			`process?number=${ getValues('number') }`
 		);
 		setProcesses( cleanProcessData( data.process ) );
-		setLoading(false);loading
+		setLoading(false);
 	});
+
+	const processsesByOrder = async (order: ProcessOrder) => {
+		setLoading(true);
+		const { data } = await axiosClient.get<GetProcessesResponse>(
+			`processByOrder?n=${ getValues('number') }&order=${order}`
+		);
+		setProcesses( cleanProcessData( data.process ) );
+		setLoading(false);
+	};
 
 	return {
 		register,
 
 		onSubmit,
+		processsesByOrder,
 		setProcesses,
 
 		loading,
 		processes,
 	};
 };
-
-export const useGetGroupProcess = async () => {
-	const [processes, setProcesses] = useState<Array<IProcess>>();
-		const { data } = await axiosClient.get<GetProcessesResponse>(
-			'process/group'
-		);
-		setProcesses( cleanProcessData( data.process ) );
-	return {
-		setProcesses,
-		processes,
-	};
-}

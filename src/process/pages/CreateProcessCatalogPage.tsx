@@ -15,15 +15,16 @@ import { useEffect, useState } from 'react';
 import { AppLayout } from '../../layouts';
 import { CreateProcessCatalogFormModal } from '../components/CreateProcessCatalogFormModal';
 import { ProcessTable } from '../components/ProcessTable';
-import { useGetProcess } from '../hooks';
+import { ProcessOrder, useGetProcess } from '../hooks';
 
-const selectOptions = ['Mayor CPU', 'Mayor Memoria'];
+const selectOptions: ProcessOrder[] = ['maxMem', 'minMem', 'maxCpu', 'minCpu']
 
 export const CreateProcessCatalogPage = () => {
   const {  
     register,
     onSubmit,
     setProcesses,
+    processsesByOrder,
     loading,
     processes,
   } = useGetProcess();
@@ -31,30 +32,17 @@ export const CreateProcessCatalogPage = () => {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const [selectAgrupar, setSelectAgrupar] = useState(selectOptions[0]);
+  const [selectAgrupar, setSelectAgrupar] = useState<ProcessOrder>('maxCpu');
 
   const handleOnCloseModal = () => setIsModalOpen(false);
   const handleOnOpenModal = () => setIsModalOpen(true);
 
-  const groupProcesses = () => {
-    //ordenar de mayor a menor
-    processes?.sort((a, b) => {
-        if (selectOptions[0] == 'Mayor CPU' ){
-          // @ts-ignore
-          return b.CPUPercentage - a.CPUPercentage;
-        }
-      // @ts-ignore
-      return b.MEMPercentage - a.MEMPercentage;
-    })
-    setProcesses(processes)
-  };
-
   const onChangeSelect = (event: SelectChangeEvent) => {
-    setSelectAgrupar(event.target.value as string);
+    setSelectAgrupar(event.target.value as ProcessOrder);
   };
 
   useEffect(() => {
-    if (processes) groupProcesses();
+    if (processes) processsesByOrder(selectAgrupar);
   }, [selectAgrupar]);
 
   return (
@@ -73,24 +61,6 @@ export const CreateProcessCatalogPage = () => {
             display='flex'
             gap={ 2 }
           >
-            <TextField
-              label='Número de procesos'
-              { ...register('number') }
-            />
-            <Button
-              variant='contained'
-              onClick={ onSubmit }
-            >
-              Obtener procesos de la maquina
-            </Button>
-          </Box>
-
-          <Box
-            my={ 2 }
-            display='flex'
-            gap={ 2 }
-          >
-
             <Select
               value={ selectAgrupar }
               onChange={ onChangeSelect }
@@ -102,16 +72,15 @@ export const CreateProcessCatalogPage = () => {
                 ))
               }
             </Select>
-
             <TextField
-              label='Procesos a agrupar'
+              label='Número de procesos'
+              { ...register('number') }
             />
-
             <Button
               variant='contained'
-              onClick={ onSubmit }
+              onClick={ () => processsesByOrder(selectAgrupar) }
             >
-              Agrupar procesos
+              Obtener procesos de la maquina
             </Button>
           </Box>
 
@@ -121,6 +90,7 @@ export const CreateProcessCatalogPage = () => {
             processes={ processes! }
             setSelectionModel={ setSelectionModel }
             selectionModel={ selectionModel }
+            loading={ loading }
           />
 
           <Box
