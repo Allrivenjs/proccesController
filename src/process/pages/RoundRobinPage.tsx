@@ -74,7 +74,7 @@ export const RoundRobinPage = () => {
       });
     });
 
-    socket.on('finished-algorithm', ( { data } ) => {
+    socket.on('finished-algorithm', ( data ) => {
       console.log(data)
       setProcessesFinished( data.processFinished );
     });

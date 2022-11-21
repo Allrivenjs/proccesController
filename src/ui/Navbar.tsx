@@ -21,6 +21,16 @@ export const Navbar = () => {
           O.S - Laboratorio de procesos
           Catalog group
         </Typography>
+          <a href="/grupos">
+            <IconButton
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+            >
+              Grupo de procesos
+            </IconButton>
+          </a>
+
       </Toolbar>
     </AppBar>
   );

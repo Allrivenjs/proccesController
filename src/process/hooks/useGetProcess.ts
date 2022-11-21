@@ -28,15 +28,28 @@ export const useGetProcess = () => {
 			`process?number=${ getValues('number') }`
 		);
 		setProcesses( cleanProcessData( data.process ) );
-		setLoading(false);
+		setLoading(false);loading
 	});
 
 	return {
 		register,
 
 		onSubmit,
+		setProcesses,
 
 		loading,
 		processes,
 	};
 };
+
+export const useGetGroupProcess = async () => {
+	const [processes, setProcesses] = useState<Array<IProcess>>();
+		const { data } = await axiosClient.get<GetProcessesResponse>(
+			'process/group'
+		);
+		setProcesses( cleanProcessData( data.process ) );
+	return {
+		setProcesses,
+		processes,
+	};
+}
