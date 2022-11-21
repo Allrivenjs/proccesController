@@ -18,7 +18,8 @@ export const getBashProcess = async (req: any, res: Response) => {
 
 export const getBashProcessByOrder = async (req: any, res: Response) => {
   const { n, order } = req.query;
-  let processes: Process[] = await Process.fromBash(10000);
+  let processes: Process[] = await Process.fromBash(parseInt(n));
+
   switch (order) {
     case 'maxCpu':
       processes = Process.orderByMaxCPU(processes);
