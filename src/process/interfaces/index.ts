@@ -1,3 +1,5 @@
+import { IProcessEvent } from "./events";
+
 export interface GetProcessesResponse {
     ok:      boolean;
     length:  number;
@@ -41,6 +43,13 @@ export interface IProcess {
     cycle:               number;
     text:                string;
 }
+
+export interface IGroup {
+    name: string;
+    description: string;
+    TH: string;
+    processes: IProcessEvent[]
+};
 
 export enum Stat {
     I = "I<",

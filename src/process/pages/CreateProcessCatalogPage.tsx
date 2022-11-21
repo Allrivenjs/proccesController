@@ -22,8 +22,6 @@ const selectOptions: ProcessOrder[] = ['maxMem', 'minMem', 'maxCpu', 'minCpu']
 export const CreateProcessCatalogPage = () => {
   const {  
     register,
-    onSubmit,
-    setProcesses,
     processsesByOrder,
     loading,
     processes,

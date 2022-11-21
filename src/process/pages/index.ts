@@ -1,2 +1,2 @@
 export * from './CreateProcessCatalogPage';
-export * from './Grupo';
+export * from './Group';
