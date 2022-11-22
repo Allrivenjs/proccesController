@@ -1,6 +1,5 @@
 import { FC, ReactNode } from 'react';
 
-import { Container } from '@mui/system';
 
 import { Navbar } from '../ui';
 
