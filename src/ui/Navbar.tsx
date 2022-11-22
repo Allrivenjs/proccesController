@@ -1,35 +1,39 @@
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, Link, IconButton, Toolbar, Typography, Button } from '@mui/material';
 
 import { MenuOutlined } from '@mui/icons-material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Stack } from '@mui/system';
 
 export const Navbar = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        {/*
-          *<IconButton
-          *  size="large"
-          *  edge="start"
-          *  color="inherit"
-          *  aria-label="menu"
-          *  sx={{ mr: 2 }}
-          *>
-          *  <MenuOutlined />
-          *</IconButton>
-          */}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           O.S - Laboratorio de procesos
           Catalog group
         </Typography>
-          <a href="/grupos">
-            <IconButton
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-            >
-              Grupo de procesos
-            </IconButton>
-          </a>
+
+        <Stack
+          direction='row'
+          spacing={ 2 }
+        >
+          <Link
+            variant='button'
+            component={ RouterLink }
+            to='/'
+          >
+            Catalog
+          </Link>
+
+          <Link
+            variant='button'
+            component={ RouterLink }
+            to='/groups'
+          >
+            Groups
+          </Link>
+
+        </Stack>
 
       </Toolbar>
     </AppBar>
