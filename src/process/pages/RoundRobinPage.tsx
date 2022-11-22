@@ -67,7 +67,7 @@ export const RoundRobinPage = () => {
             return {
               ...data.process,
               percent: 100,
-            };2
+            };
           };
           return process;
         })
