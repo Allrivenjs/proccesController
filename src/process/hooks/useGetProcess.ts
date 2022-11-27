@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import axiosClient from '../../apis/axiosClient';
 import { cleanProcessData } from '../../helpers';
 
-import { GetProcessesResponse, IProcess, IProcessDirty } from '../interfaces';
+import { GetProcessesResponse, IProcess } from '../interfaces';
 
 
 export type ProcessOrder = 
@@ -49,11 +49,9 @@ export const useGetProcess = () => {
 
 	return {
 		register,
-
 		onSubmit,
 		processsesByOrder,
 		setProcesses,
-
 		loading,
 		processes,
 	};
